@@ -74,7 +74,7 @@ function removeRow(type, index){
     for (var i = 0; i < data.length; i++){
         data[i][2] = i;
     }
-
+    window.localStorage.removeItem(type);
 	window.localStorage.setItem(type,JSON.stringify(data));
     updateTable(type);
 }
