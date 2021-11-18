@@ -1,0 +1,13 @@
+﻿.create th {
+    padding: 10px;
+}
+
+.create td {
+    padding: 10px;
+    border: 1px black solid;
+    margin: 0;
+}
+
+.hidden {
+    display: none;
+}
