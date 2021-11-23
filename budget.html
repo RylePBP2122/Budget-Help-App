@@ -1,8 +1,7 @@
 ﻿<!DOCTYPE html>
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-    <meta charset="utf-8" />
     <title>Budget Helper</title>
     <script type="text/javascript" src="script.js"></script>
     <link rel="stylesheet" href="styles.css">
@@ -11,71 +10,73 @@
     <nav>
         <ul>
             <li><a href="index.html">Overview</a></li>
-            <li><a href="budget.html">Budget</a></li>
-            <li>Reports</li>
+            <li><a class="active" href="budget.html">Budget</a></li>
+            <li><a href="">Reports</a></li>
         </ul>
     </nav>
-        <h1>Create a Budget +</h1>
-    <form class="create">
-        <label for="name">Budget Name</label>
-        <input type="text" id="name" name="name" required/>
-        <br />
-        <label for="income">Monthly Income</label>
-        <input type="text" id="income" name="income" required/>
-        <br />
-        <div class="expense">
-            <table id="expense-table">
-                <tr>
-                    <th>Expense</th>
-                    <th>Cost</th>
-                </tr>
-            </table>
-            <label for="expense-type">Expense Type</label>
-            <select name="expense-type" id="expense-type">
-                <option value="">Please select an option</option>
-                <option value="Food">Food</option>
-                <option value="Clothing">Clothing</option>
-                <option value="Transportation">Transportation</option>
-                <option value="Housing">Housing</option>
-                <option value="Utilities">Utilities</option>
-                <option value="Medical">Medical</option>
-                <option value="Personal">Personal</option>
-                <option value="Other">Other</option>
-            </select>
+    <div class="form">
+        <h1>Create a Budget</h1>
+        <form>
+            <label for="name">Budget Name</label>
+            <input type="text" id="name" name="name" required/>
             <br />
-            <label for="expense-cost">Monthly Cost</label>
-            <input type="text" id="expense-cost" name="expense-cost" />
+            <label for="income">Monthly Income</label>
+            <input type="text" id="income" name="income" required/>
             <br />
-            <button id="add-expense" type="button">Add Expense</button>
-            <button id="edit-expense" type="button" class="edit-button">Save</button>
-        </div>
-        <div class="savings">
-            <br>
-            <table id="savings-table">
-                <tr>
-                    <th>Goal</th>
-                    <th>Amount</th>
-                </tr>
-            </table>
-            <label for="savings-type">Savings Type</label>
-            <select name="savings-type" id="savings-type" onchange="showHidden('hidden-savings',this,'custom')">
-                <option value="">Please select an option</option>
-                <option value="Emergency">Emergency</option>
-                <option value="custom">Custom</option>
-            </select>
-            <br />
-            <div class="hidden" id="hidden-savings">
-                <label for="savings-custom">Custom Goal Type</label>
-                <input type="text" name="savings-custom" id="savings-custom" />
+            <div class="expense">
+                <table id="expense-table">
+                    <tr>
+                        <th>Expense</th>
+                        <th colspan="3">Cost</th>
+                    </tr>
+                </table>
+                <label for="expense-type">Expense Type</label>
+                <select name="expense-type" id="expense-type">
+                    <option value="">Please select an option</option>
+                    <option value="Food">Food</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Housing">Housing</option>
+                    <option value="Utilities">Utilities</option>
+                    <option value="Medical">Medical</option>
+                    <option value="Personal">Personal</option>
+                    <option value="Other">Other</option>
+                </select>
+                <br />
+                <label for="expense-cost">Monthly Cost</label>
+                <input type="text" id="expense-cost" name="expense-cost" />
+                <br />
+                <button id="add-expense" type="button">Add Expense</button>
+                <button id="edit-expense" type="button" class="edit-button">Save</button>
             </div>
-            <label for="savings-cost">Goal Amount</label>
-            <input type="text" name="savings-cost" id="savings-cost" />
-            <br />
-            <button id="add-savings" type="button">Add Goal</button>
-            <button id="edit-savings" type="button" class="edit-button">Save</button>
-        </div>
-        <br>
-        <button id="submit">Create Budget</button>
-    </form>
+            <div class="savings">
+                <br>
+                <table id="savings-table">
+                    <tr>
+                        <th>Goal</th>
+                        <th colspan="3">Amount</th>
+                    </tr>
+                </table>
+                <label for="savings-type">Savings Type</label>
+                <select name="savings-type" id="savings-type" onchange="showHidden('hidden-savings',this,'custom')">
+                    <option value="">Please select an option</option>
+                    <option value="Emergency">Emergency</option>
+                    <option value="custom">Custom</option>
+                </select>
+                <br />
+                <div class="hidden" id="hidden-savings">
+                    <label for="savings-custom">Custom Goal Type</label>
+                    <input type="text" name="savings-custom" id="savings-custom" />
+                </div>
+                <label for="savings-cost">Goal Amount</label>
+                <input type="text" name="savings-cost" id="savings-cost" />
+                <br />
+                <button id="add-savings" type="button">Add Goal</button>
+                <button id="edit-savings" type="button" class="edit-button">Save</button>
+            </div>
+            <br>
+            <button id="submit" type="submit">Create Budget</button>
+        </form>
+    </div>
 </body>
 </html>

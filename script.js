@@ -77,7 +77,6 @@ function editRow(type,btn){
     index = tr.rowIndex;
 	
     if (type == "savings" && data[index-1][0] != "Emergency"){
-        
         document.getElementById("hidden-savings").style.display = "block";
         document.getElementById(type + "-type").value = "custom";
         document.getElementById(type + "-custom").value = data[index-1][0];
@@ -97,11 +96,11 @@ function submit() {
     var name = document.getElementById("name").value;
     var income = document.getElementById("income").value;
 
-    if (window.localStorage.getItem("expense") != null){
+    if (window.sessionStorage.getItem("expense") != null){
         var expenses = JSON.parse(window.sessionStorage.getItem("expense"));
     } else 
         var expenses = [];
-    if (window.localStorage.getItem("savings") != null){
+    if (window.sessionStorage.getItem("savings") != null){
         var savings = JSON.parse(window.sessionStorage.getItem("savings"));
     } else 
         var savings = [];
