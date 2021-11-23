@@ -1,13 +1,15 @@
 document.addEventListener("DOMContentLoaded", update);
 
 function update () {
-    document.getElementById("add-savings").addEventListener("click",function _add(){addRow("savings")});
-    document.getElementById("add-expense").addEventListener("click",function _add(){addRow("expense")});
+    document.getElementById("add-savings").addEventListener("click",function(){addRow("savings",-1)});
+    document.getElementById("add-expense").addEventListener("click",function(){addRow("expense",-1)});
     document.getElementById("submit").addEventListener("click",function(){submit()});
     window.sessionStorage.clear();
 }
 
-function addRow(type) {
+function addRow(type, index) {
+    document.getElementById("add-" + type).innerHTML = "Add " + type.charAt(0).toUpperCase() + type.slice(1);
+    
     if (window.sessionStorage.getItem(type) == null){
        var data = [];
     } else {
@@ -18,6 +20,8 @@ function addRow(type) {
     if (valueType == "custom"){
         valueType = document.getElementById(type + "-custom").value;
         document.getElementById(type + "-custom").value = "";
+        document.getElementById("hidden-savings").style.display = "none";
+
     }
     var valueCost = document.getElementById(type + "-cost").value;
 
@@ -25,48 +29,52 @@ function addRow(type) {
     document.getElementById(type + "-cost").value = "";
 
     if (valueType != "" && valueCost != ""){
-        var index = data.length;
-        data.push([valueType,valueCost,index]);
-        window.sessionStorage.setItem(type, JSON.stringify(data));
+        if (index != -1){
+            var td = index.parentNode;
+            var tr = td.parentNode;
+            data[tr.rowIndex-1][0] = valueType;
+            data[tr.rowIndex-1][1] = valueCost;
+            window.sessionStorage.setItem(type, JSON.stringify(data));
+        } else {
+            data.push([valueType,valueCost]);
+            window.sessionStorage.setItem(type, JSON.stringify(data));
+        }        
 
         var table = document.querySelector("." + type+ " table");
-        var row = table.insertRow(index+1);
+        var row = table.insertRow(index);
         var cellType = row.insertCell(0);
         var cellCost = row.insertCell(1);
         var edit = row.insertCell(2);
         var del = row.insertCell(3);
     
-        cellType.innerHTML = data[index][0];
-        cellCost.innerHTML = "$" + data[index][1];
+        cellType.innerHTML = valueType;
+        cellCost.innerHTML = "$" + valueCost;
         edit.innerHTML = "<button id='delete' type='button'>Edit</button>";
-        edit.addEventListener("click",function _edit(){editRow(type,data[index][2])});
+        edit.addEventListener("click", function(){editRow(type, edit.firstChild)});
         del.innerHTML = "<button id='delete' type='button'>Delete</button>";
-        del.addEventListener("click",function _remove(){removeRow(type,data[index][2])});
+        del.addEventListener("click", function(){removeRow(type, del.firstChild)});
     }
 }
 
-function removeRow(type, index){
-    var table = document.querySelector("." + type+ " table");
-    table.deleteRow((index+1));
+function removeRow(type, btn){
+    var td = btn.parentNode;
+    var tr = td.parentNode;
 
     var data = JSON.parse(window.sessionStorage.getItem(type));
-    data.splice(index,1)
+    data.splice(tr.rowIndex-1,1)
+    window.sessionStorage.setItem(type,JSON.stringify(data));
 
-    for (var i = 0; i < data.length; i++){
-        data[i][2] = i;
-        table.rows[i+1].cells[2].removeEventListener("click", _edit);
-        table.rows[i+1].cells[2].addEventListener("click", addEventListener("click",function _edit(){editRow(type,i)}));
-        table.rows[i+1].cells[3].removeEventListener("click", _remove);
-        table.rows[i+1].cells[3].addEventListener("click", addEventListener("click",function _remove(){editRow(type,i)}));
-    }
-    window.sessionStorage.setItem(type,JSON.stringify(data)); 
+    tr.parentNode.removeChild(tr);
 }
 
-function editRow(type,index){
+function editRow(type,btn){
 	var data = JSON.parse(window.sessionStorage.getItem(type));
+
+    var td = btn.parentNode;
+    var tr = btn.parentNode;
 	
-	document.getElementById(type + "-type").value = data[index][0];
-	document.getElementById(type + "-cost").value = data[index][1];
+	document.getElementById(type + "-type").value = data[tr.rowIndex-1][0];
+	document.getElementById(type + "-cost").value = data[tr.rowIndex-1][1];
 
 	document.getElementById("add-" + type).innerHTML = "Save";
 
