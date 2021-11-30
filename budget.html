@@ -27,11 +27,12 @@
                 <table id="expense-table">
                     <tr>
                         <th>Expense</th>
-                        <th colspan="3">Cost</th>
+                        <th>Cost</th>
+                        <th colspan="3">Frequency</th>
                     </tr>
                 </table>
                 <label for="expense-type">Expense Type</label>
-                <select name="expense-type" id="expense-type">
+                <select name="expense-type" id="expense-type" onchange="showHidden('hidden-expense',this,'custom')">
                     <option value="">Please select an option</option>
                     <option value="Food">Food</option>
                     <option value="Clothing">Clothing</option>
@@ -40,10 +41,22 @@
                     <option value="Utilities">Utilities</option>
                     <option value="Medical">Medical</option>
                     <option value="Personal">Personal</option>
-                    <option value="Other">Other</option>
+                    <option value="custom">Custom</option>
                 </select>
                 <br />
-                <label for="expense-cost">Monthly Cost</label>
+                <div class="hidden" id="hidden-expense">
+                    <label for="expense-custom">Custom Goal Type</label>
+                    <input type="text" name="expense-custom" id="expense-custom" />
+                </div>
+                <label for="expense-frequency">Expense Frequency</label>
+                <select name="expense-frequency" id="expense-frequency">
+                    <option value="">Please select an option</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Annually">Annually</option>
+                </select>
+                <br>
+                <label for="expense-cost">Cost</label>
                 <input type="text" id="expense-cost" name="expense-cost" />
                 <br />
                 <button id="add-expense" type="button">Add Expense</button>
@@ -54,7 +67,8 @@
                 <table id="savings-table">
                     <tr>
                         <th>Goal</th>
-                        <th colspan="3">Amount</th>
+                        <th>Amount</th>
+                        <th colspan="3">Date</th>
                     </tr>
                 </table>
                 <label for="savings-type">Savings Type</label>
@@ -68,6 +82,24 @@
                     <label for="savings-custom">Custom Goal Type</label>
                     <input type="text" name="savings-custom" id="savings-custom" />
                 </div>
+                <label for="savings-frequency">Goal Date</label>
+                <input type="date" id="savings-frequency" name="savings-frequency">
+                <script>
+                    var today = new Date();
+                    var dd = today.getDate();
+                    var mm = today.getMonth()+1;
+                    var yyyy = today.getFullYear();
+                    if(dd<10){
+                    dd='0'+dd
+                    } 
+                    if(mm<10){
+                    mm='0'+mm
+                    } 
+
+                    today = yyyy+'-'+mm+'-'+dd;
+                    document.getElementById("savings-frequency").setAttribute("min", today);
+                </script>
+                <br>
                 <label for="savings-cost">Goal Amount</label>
                 <input type="text" name="savings-cost" id="savings-cost" />
                 <br />
