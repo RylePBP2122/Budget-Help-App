@@ -19,12 +19,35 @@
         <form>
             <label for="name">Budget Name</label>
             <input type="text" id="name" name="name" required/>
-            <br />
-            <label for="income">Monthly Income</label>
-            <input type="text" id="income" name="income" required/>
-            <br />
+            <br>
+            <br>
+            <div class="income">
+                <table id="income-table" class="hidden">
+                    <tr>
+                        <th>Name</th>
+                        <th>Income</th>
+                        <th colspan="3">Frequency</th>
+                    </tr>
+                </table>
+                <label for="income-type">Income Name</label>
+                <input type="text" id="income-type" name="income-type"/>
+                <br />
+                <label for="income-cost">Income</label>
+                <input type="text" id="income-cost" name="income-cost">
+                <br>
+                <label for="income-frequency">Income Frequency</label>
+                <select name="income-frequency" id="income-frequency">
+                    <option value="">Please select an option</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Annually">Annually</option>
+                </select>
+                <br>
+                <button id="add-income" type="button">Add Income</button>
+                <button id="edit-income" type="button" class="edit-button">Save</button> 
+            </div>
             <div class="expense">
-                <table id="expense-table">
+                <table id="expense-table" class="hidden">
                     <tr>
                         <th>Expense</th>
                         <th>Cost</th>
@@ -63,8 +86,7 @@
                 <button id="edit-expense" type="button" class="edit-button">Save</button>
             </div>
             <div class="savings">
-                <br>
-                <table id="savings-table">
+                <table id="savings-table" class="hidden">
                     <tr>
                         <th>Goal</th>
                         <th>Amount</th>

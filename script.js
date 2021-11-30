@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", update);
 function update () {
     document.getElementById("add-savings").addEventListener("click",function(){addRow("savings",-1)});
     document.getElementById("add-expense").addEventListener("click",function(){addRow("expense",-1)});
+    document.getElementById("add-income").addEventListener("click",function(){addRow("income",-1)});
     document.getElementById("submit").addEventListener("click",function(){submit()});
     window.sessionStorage.clear();
 }
@@ -34,7 +35,9 @@ function addRow(type,index) {
     document.getElementById(type + "-frequency").value = "";
 
 
-    if (valueType != "" && valueCost != ""){
+    if (valueType != "" && valueCost != "" && valueFreq != ""){
+        if (data.length == 0)
+            document.getElementById(type + "-table").style.display = "block";
         if (index != -1){
             data.splice(index-1,1,[valueType,valueCost,valueFreq,custom]);
             window.sessionStorage.setItem(type, JSON.stringify(data));
@@ -75,6 +78,8 @@ function removeRow(type, btn){
     window.sessionStorage.setItem(type,JSON.stringify(data));
 
     tr.parentNode.removeChild(tr);
+    if (data.length == 0)
+        document.getElementById(type + "-table").style.display = "none";
 }
 
 function editRow(type,btn){
@@ -104,7 +109,6 @@ function editRow(type,btn){
 
 function submit() {
     var name = document.getElementById("name").value;
-    var income = document.getElementById("income").value;
 
     if (window.sessionStorage.getItem("expense") != null){
         var expenses = JSON.parse(window.sessionStorage.getItem("expense"));
@@ -114,16 +118,21 @@ function submit() {
         var savings = JSON.parse(window.sessionStorage.getItem("savings"));
     } else 
         var savings = [];
+    if (window.sessionStorage.getItem("income") != null){
+        var income = JSON.parse(window.sessionStorage.getItem("income"));
+    } else 
+        var income = [];
 
     var budget = {
         "name":name,
-        "income":name,
+        "income":income,
         "expenses":expenses,
         "savings":savings
     }
     
     window.sessionStorage.removeItem("expense");
     window.sessionStorage.removeItem("savings");
+    window.sessionStorage.removeItem("income");
     window.localStorage.setItem("budget",JSON.stringify(budget));
 }
 
