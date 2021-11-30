@@ -6,131 +6,162 @@
     <script type="text/javascript" src="script.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <nav>
-        <ul>
-            <li><a href="index.html">Overview</a></li>
-            <li><a class="active" href="budget.html">Budget</a></li>
-            <li><a href="">Reports</a></li>
-        </ul>
-    </nav>
-    <div class="form">
-        <h1>Create a Budget</h1>
-        <form>
-            <label for="name">Budget Name</label>
-            <input type="text" id="name" name="name" required/>
-            <br>
-            <br>
-            <div class="income">
-                <table id="income-table" class="hidden">
-                    <tr>
-                        <th>Name</th>
-                        <th>Income</th>
-                        <th colspan="3">Frequency</th>
-                    </tr>
-                </table>
-                <label for="income-type">Income Name</label>
-                <input type="text" id="income-type" name="income-type"/>
-                <br />
-                <label for="income-cost">Income</label>
-                <input type="text" id="income-cost" name="income-cost">
+<body>    
+    <div class="container">
+        <div class="nav">
+            <nav>
+                <ul>
+                    <li><a href="index.html">Overview</a></li>
+                    <li><a class="active" href="budget.html">Budget</a></li>
+                    <li><a href="">Reports</a></li>
+                </ul>
+            </nav>  
+        </div>
+        <div id="form">
+            <h1>Create a Budget</h1>
+            <form>
+                <label for="name">Budget Name</label>
+                <input type="text" id="name" name="name" required/>
                 <br>
-                <label for="income-frequency">Income Frequency</label>
-                <select name="income-frequency" id="income-frequency">
-                    <option value="">Please select an option</option>
-                    <option value="Weekly">Weekly</option>
-                    <option value="Monthly">Monthly</option>
-                    <option value="Annually">Annually</option>
-                </select>
                 <br>
-                <button id="add-income" type="button">Add Income</button>
-                <button id="edit-income" type="button" class="edit-button">Save</button> 
-            </div>
-            <div class="expense">
-                <table id="expense-table" class="hidden">
-                    <tr>
-                        <th>Expense</th>
-                        <th>Cost</th>
-                        <th colspan="3">Frequency</th>
-                    </tr>
-                </table>
-                <label for="expense-type">Expense Type</label>
-                <select name="expense-type" id="expense-type" onchange="showHidden('hidden-expense',this,'custom')">
-                    <option value="">Please select an option</option>
-                    <option value="Food">Food</option>
-                    <option value="Clothing">Clothing</option>
-                    <option value="Transportation">Transportation</option>
-                    <option value="Housing">Housing</option>
-                    <option value="Utilities">Utilities</option>
-                    <option value="Medical">Medical</option>
-                    <option value="Personal">Personal</option>
-                    <option value="custom">Custom</option>
-                </select>
-                <br />
-                <div class="hidden" id="hidden-expense">
-                    <label for="expense-custom">Custom Goal Type</label>
-                    <input type="text" name="expense-custom" id="expense-custom" />
+                <div class="income">
+                    <h3 class="heading">Income</h3>
+                    <table id="income-table" class="hidden">
+                        <tr>
+                            <th>Name</th>
+                            <th>Income</th>
+                            <th colspan="3">Frequency</th>
+                        </tr>
+                    </table>
+                    <ul>
+                        <li>
+                            <label for="income-type">Income Name</label>
+                            <input type="text" id="income-type" name="income-type"/>
+                        </li>
+                        <li>
+                            <label for="income-frequency">Income Frequency</label>
+                            <select name="income-frequency" id="income-frequency">
+                                <option value="">Please select an option</option>
+                                <option value="Weekly">Weekly</option>
+                                <option value="Monthly">Monthly</option>
+                                <option value="Annually">Annually</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label for="income-cost">Income</label>
+                            <input type="text" id="income-cost" name="income-cost">
+                        </li>
+                        <li>
+                            <button id="add-income" type="button">Add Income</button>
+                            <button id="edit-income" type="button" class="edit-button">Save</button> 
+                        </li>
+                    </ul>                
                 </div>
-                <label for="expense-frequency">Expense Frequency</label>
-                <select name="expense-frequency" id="expense-frequency">
-                    <option value="">Please select an option</option>
-                    <option value="Weekly">Weekly</option>
-                    <option value="Monthly">Monthly</option>
-                    <option value="Annually">Annually</option>
-                </select>
-                <br>
-                <label for="expense-cost">Cost</label>
-                <input type="text" id="expense-cost" name="expense-cost" />
-                <br />
-                <button id="add-expense" type="button">Add Expense</button>
-                <button id="edit-expense" type="button" class="edit-button">Save</button>
-            </div>
-            <div class="savings">
-                <table id="savings-table" class="hidden">
-                    <tr>
-                        <th>Goal</th>
-                        <th>Amount</th>
-                        <th colspan="3">Date</th>
-                    </tr>
-                </table>
-                <label for="savings-type">Savings Type</label>
-                <select name="savings-type" id="savings-type" onchange="showHidden('hidden-savings',this,'custom')">
-                    <option value="">Please select an option</option>
-                    <option value="Emergency">Emergency</option>
-                    <option value="custom">Custom</option>
-                </select>
-                <br />
-                <div class="hidden" id="hidden-savings">
-                    <label for="savings-custom">Custom Goal Type</label>
-                    <input type="text" name="savings-custom" id="savings-custom" />
+                <div class="expense">
+                    <h3 class="heading">Expenses</h3>
+                    <table id="expense-table" class="hidden">
+                        <tr>
+                            <th>Expense</th>
+                            <th>Cost</th>
+                            <th colspan="3">Frequency</th>
+                        </tr>
+                    </table>
+                    <ul>
+                        <li>
+                            <label for="expense-type">Expense Type</label>
+                            <select name="expense-type" id="expense-type" onchange="showHidden('hidden-expense',this,'custom')">
+                                <option value="">Please select an option</option>
+                                <option value="Food">Food</option>
+                                <option value="Clothing">Clothing</option>
+                                <option value="Transportation">Transportation</option>
+                                <option value="Housing">Housing</option>
+                                <option value="Utilities">Utilities</option>
+                                <option value="Medical">Medical</option>
+                                <option value="Personal">Personal</option>
+                                <option value="custom">Custom</option>
+                            </select>
+                            <div class="hidden" id="hidden-expense">
+                                <label for="expense-custom">Custom Goal Type</label>
+                                <input type="text" name="expense-custom" id="expense-custom" />
+                            </div>
+                        </li>
+                        <li>
+                            <label for="expense-frequency">Expense Frequency</label>
+                            <select name="expense-frequency" id="expense-frequency">
+                                <option value="">Please select an option</option>
+                                <option value="Weekly">Weekly</option>
+                                <option value="Monthly">Monthly</option>
+                                <option value="Annually">Annually</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label for="expense-cost">Cost</label>
+                            <input type="text" id="expense-cost" name="expense-cost" />
+                        </li>
+                        <li>
+                            <button id="add-expense" type="button">Add Expense</button>
+                            <button id="edit-expense" type="button" class="edit-button">Save</button>
+                        </li>
+                    </ul>
                 </div>
-                <label for="savings-frequency">Goal Date</label>
-                <input type="date" id="savings-frequency" name="savings-frequency">
-                <script>
-                    var today = new Date();
-                    var dd = today.getDate();
-                    var mm = today.getMonth()+1;
-                    var yyyy = today.getFullYear();
-                    if(dd<10){
-                    dd='0'+dd
-                    } 
-                    if(mm<10){
-                    mm='0'+mm
-                    } 
-
-                    today = yyyy+'-'+mm+'-'+dd;
-                    document.getElementById("savings-frequency").setAttribute("min", today);
-                </script>
+                <div class="savings">
+                    <h3 class="heading">Savings</h3>
+                    <table id="savings-table" class="hidden">
+                        <tr>
+                            <th>Goal</th>
+                            <th>Amount</th>
+                            <th colspan="3">Date</th>
+                        </tr>
+                    </table>
+                    <ul>
+                        <li>
+                            <label for="savings-type">Savings Type</label>
+                            <select name="savings-type" id="savings-type" onchange="showHidden('hidden-savings',this,'custom')">
+                                <option value="">Please select an option</option>
+                                <option value="Emergency">Emergency</option>
+                                <option value="custom">Custom</option>
+                            </select>
+                            <div class="hidden" id="hidden-savings">
+                                <label for="savings-custom">Custom Goal Type</label>
+                                <input type="text" name="savings-custom" id="savings-custom" />
+                            </div>
+                        </li>
+                        <li>
+                            <label for="savings-frequency">Goal Date</label>
+                            <input type="date" id="savings-frequency" name="savings-frequency">
+                            <script>
+                                var today = new Date();
+                                var dd = today.getDate();
+                                var mm = today.getMonth()+1;
+                                var yyyy = today.getFullYear();
+                                if(dd<10){
+                                dd='0'+dd
+                                } 
+                                if(mm<10){
+                                mm='0'+mm
+                                } 
+            
+                                today = yyyy+'-'+mm+'-'+dd;
+                                document.getElementById("savings-frequency").setAttribute("min", today);
+                            </script>
+                        </li>
+                        <li>
+                            <label for="savings-cost">Goal Amount</label>
+                            <input type="text" name="savings-cost" id="savings-cost" />
+                        </li>
+                        <li>
+                            <button id="add-savings" type="button">Add Goal</button>
+                            <button id="edit-savings" type="button" class="edit-button">Save</button>
+                        </li>
+                    </ul>
+                </div>
                 <br>
-                <label for="savings-cost">Goal Amount</label>
-                <input type="text" name="savings-cost" id="savings-cost" />
-                <br />
-                <button id="add-savings" type="button">Add Goal</button>
-                <button id="edit-savings" type="button" class="edit-button">Save</button>
-            </div>
-            <br>
-            <button id="submit" type="submit">Create Budget</button>
-        </form>
+                <button id="submit" type="submit">Create Budget</button>
+            </form>
+        </div>
+        <div id="overview">
+            <h3>Budget Overview</h3>
+        </div>
     </div>
 </body>
 </html>
