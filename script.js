@@ -47,9 +47,21 @@ function addRow(type,index) {
         if (data.length == 0)
             document.getElementById(type + "-table").style.display = "block";
         if (index != -1){
-            data.splice(index-1,1,[valueType,valueCost,valueFreq,custom]);
-            window.sessionStorage.setItem(type, JSON.stringify(data));
-            
+            if (type == "savings"){
+                const d = new Date();
+                const mm = d.getMonth();
+                const yyyy = d.getYear();
+
+                var nDate = new Date(valueFreq);
+                var diff = ((nDate.getYear()-yyyy)*12) + (nDate.getMonth() - mm)+1;
+                var payment = Math.ceil(valueCost/diff);
+
+                data.splice(index-1,1,[valueType,valueCost,valueFreq,custom,diff,payment]);
+                window.sessionStorage.setItem(type, JSON.stringify(data));
+            } else {
+                data.splice(index-1,1,[valueType,valueCost,valueFreq,custom]);
+                window.sessionStorage.setItem(type, JSON.stringify(data));
+            }
             var table = document.querySelector("." + type+ " table");
             table.rows[index].cells[0].innerHTML = valueType;
             table.rows[index].cells[1].innerHTML = "$" + valueCost;
@@ -89,6 +101,8 @@ function removeRow(type, btn){
     tr.parentNode.removeChild(tr);
     if (data.length == 0)
         document.getElementById(type + "-table").style.display = "none";
+
+    updateOverview();
 }
 
 function editRow(type,btn){
@@ -166,12 +180,29 @@ function updateOverview(){
     };
 
     income.forEach(e => {
-        total.iTotal += e[1];
+        if (e[2] == "Weekly")
+            total.iTotal += e[1]*4;
+        else   
+            total.iTotal += e[1];
+
     });
 
     expenses.forEach(e => {
-        total.eTotal += e[1];
+        if (e[2] == "Weekly")
+            total.eTotal += e[1]*4;
+        else   
+            total.eTotal += e[1];
     });
 
+    var net = total.iTotal - total.eTotal - total.sTotal;
+
     document.querySelector("#income-overview span").innerHTML = total.iTotal;
+    document.querySelector("#expenses-overview span").innerHTML = total.eTotal;
+    document.querySelector("#balance span").innerHTML = net;
+
+    if (net < 0)
+        document.querySelector("#balance span").style.color = "red";
+    else if (net > 0)
+        document.querySelector("#balance span").style.color = "green";
+
 }

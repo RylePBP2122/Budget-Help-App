@@ -18,7 +18,7 @@
             </nav>  
         </div>
         <div id="form">
-            <h1>Create a Budget</h1>
+            <h3>Create a Budget</h3>
             <form>
                 <label for="name">Budget Name</label>
                 <input type="text" id="name" name="name" required/>
@@ -44,7 +44,6 @@
                                 <option value="">Please select an option</option>
                                 <option value="Weekly">Weekly</option>
                                 <option value="Monthly">Monthly</option>
-                                <option value="Annually">Annually</option>
                             </select>
                         </li>
                         <li>
@@ -91,7 +90,6 @@
                                 <option value="">Please select an option</option>
                                 <option value="Weekly">Weekly</option>
                                 <option value="Monthly">Monthly</option>
-                                <option value="Annually">Annually</option>
                             </select>
                         </li>
                         <li>
@@ -128,17 +126,18 @@
                         </li>
                         <li>
                             <label for="savings-frequency">Goal Date</label>
-                            <input type="date" id="savings-frequency" name="savings-frequency">
+                            <input type="month" id="savings-frequency" name="savings-frequency">
                             <script>
                                 var today = new Date();
                                 var dd = today.getDate();
                                 var mm = today.getMonth()+1;
                                 var yyyy = today.getFullYear();
+
                                 if(dd<10){
-                                dd='0'+dd
+                                    dd='0'+dd
                                 } 
                                 if(mm<10){
-                                mm='0'+mm
+                                    mm='0'+mm
                                 } 
             
                                 today = yyyy+'-'+mm+'-'+dd;
@@ -186,7 +185,7 @@
                 </div>
             </div>
             <div id="balance">
-                <p>Net Monthly Balance: $</p>
+                <p>Net Monthly Balance: $<span></span></p>
             </div>
         </div>
     </div>
