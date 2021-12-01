@@ -3,21 +3,21 @@
     display: flex;
 }
 
-.nav ul {
+#nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     height: 100%;
 }
 
-.nav li a {
+#nav li a {
     display: block;
     color: #000;
     padding: 8px 16px;
     text-decoration: none;
 }
 
-.nav li a:hover {
+#nav li a:hover {
     background-color: rgb(226, 226, 226);
 }
 

@@ -8,7 +8,7 @@
 </head>
 <body>    
     <div class="container">
-        <div class="nav">
+        <div id="nav">
             <nav>
                 <ul>
                     <li><a href="index.html">Overview</a></li>
@@ -161,6 +161,33 @@
         </div>
         <div id="overview">
             <h3>Budget Overview</h3>
+            <div id="income-overview">
+                <label>Income: $<span></span></label>
+                <button type="button">+</button>
+                <div class="hidden" id="income-details">
+                    <table>
+                    </table>
+                </div>
+            </div>
+            <div id="expenses-overview">
+                <label>Expenses: $<span></span></label>
+                <button type="button">+</button>
+                <div class="hidden" id="expenses-details">
+                    <table>
+                    </table>
+                </div>
+            </div>
+            <div id="savings-overview">
+                <label>Savings: $<span></span></label>
+                <button type="button">+</button>
+                <div class="hidden" id="savings-details">
+                    <table>
+                    </table>
+                </div>
+            </div>
+            <div id="balance">
+                <p>Net Monthly Balance: $</p>
+            </div>
         </div>
     </div>
 </body>

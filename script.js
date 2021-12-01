@@ -8,6 +8,14 @@ function update () {
     window.sessionStorage.clear();
 }
 
+function showHidden (divId, input, val){
+    if(input.value == val){
+        document.getElementById(divId).style.display = "block";
+    } else {
+        document.getElementById(divId).style.display = "none";
+    }
+}
+
 function addRow(type,index) {
     document.getElementById("edit-" + type).style.display = "none";
     document.getElementById("add-" + type).style.display = "block";  
@@ -27,7 +35,7 @@ function addRow(type,index) {
         document.getElementById("hidden-" + type).style.display = "none";
 
     }
-    var valueCost = document.getElementById(type + "-cost").value;
+    var valueCost = parseInt(document.getElementById(type + "-cost").value);
     var valueFreq = document.getElementById(type + "-frequency").value;
 
     document.getElementById(type + "-type").value = "";
@@ -67,6 +75,7 @@ function addRow(type,index) {
             del.addEventListener("click", function(){removeRow(type, del.firstChild)});
         }     
     }
+    updateOverview();
 }
 
 function removeRow(type, btn){
@@ -124,10 +133,10 @@ function submit() {
         var income = [];
 
     var budget = {
-        "name":name,
-        "income":income,
-        "expenses":expenses,
-        "savings":savings
+        n:name,
+        i:income,
+        e:expenses,
+        s:savings
     }
     
     window.sessionStorage.removeItem("expense");
@@ -136,10 +145,33 @@ function submit() {
     window.localStorage.setItem("budget",JSON.stringify(budget));
 }
 
-function showHidden (divId, input, val){
-    if(input.value == val){
-        document.getElementById(divId).style.display = "block";
-    } else {
-        document.getElementById(divId).style.display = "none";
-    }
+function updateOverview(){
+    if (window.sessionStorage.getItem("expense") != null){
+        var expenses = JSON.parse(window.sessionStorage.getItem("expense"));
+    } else 
+        var expenses = [];
+    if (window.sessionStorage.getItem("savings") != null){
+        var savings = JSON.parse(window.sessionStorage.getItem("savings"));
+    } else 
+        var savings = [];
+    if (window.sessionStorage.getItem("income") != null){
+        var income = JSON.parse(window.sessionStorage.getItem("income"));
+    } else 
+        var income = [];
+
+    var total = {
+        iTotal: 0,
+        eTotal: 0,
+        sTotal: 0
+    };
+
+    income.forEach(e => {
+        total.iTotal += e[1];
+    });
+
+    expenses.forEach(e => {
+        total.eTotal += e[1];
+    });
+
+    document.querySelector("#income-overview span").innerHTML = total.iTotal;
 }
