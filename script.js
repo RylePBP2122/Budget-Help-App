@@ -179,10 +179,20 @@ function updateOverview(){
     };
 
     income.forEach(e => {
-        if (e[2] == "Weekly")
-            total.iTotal += e[1]*4;
-        else   
+        var ul = document.querySelector("#income-details ul");
+        var li = document.createElement("li");
+        ul.appendChild(li);
+
+        if (e[2] == "Weekly"){
+            var x = e[1]*4;
+            total.iTotal += x;
+            li.innerHTML = e[0] + "(Weekly): $" + e[1] + "* 4 = $" + x;
+        }
+            
+        else {
             total.iTotal += e[1];
+            li.innerHTML = e[0] + "(Monthly): $" + e[1];
+        }
     });
 
     expenses.forEach(e => {
@@ -220,4 +230,13 @@ function dateData (date, cost){
     var payment = Math.ceil(cost/diff);
     var x = [diff, payment];
     return x;
+}
+
+function toggleHidden(id){
+    if (document.getElementById(id).style.display == "none"){
+        document.getElementById(id).style.display = "block";
+    } else if (document.getElementById(id).style.display == "block"){
+        document.getElementById(id).style.display = "none";
+    }
+    console.log(document.getElementById(id).style.display);
 }
