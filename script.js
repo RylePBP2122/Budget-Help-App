@@ -48,15 +48,8 @@ function addRow(type,index) {
             document.getElementById(type + "-table").style.display = "block";
         if (index != -1){
             if (type == "savings"){
-                const d = new Date();
-                const mm = d.getMonth();
-                const yyyy = d.getYear();
-
-                var nDate = new Date(valueFreq);
-                var diff = ((nDate.getYear()-yyyy)*12) + (nDate.getMonth() - mm)+1;
-                var payment = Math.ceil(valueCost/diff);
-
-                data.splice(index-1,1,[valueType,valueCost,valueFreq,custom,diff,payment]);
+                var goalData = dateData(valueFreq,valueCost);
+                data.splice(index-1,1,[valueType,valueCost,valueFreq,custom,goalData[0],goalData[1]]);
                 window.sessionStorage.setItem(type, JSON.stringify(data));
             } else {
                 data.splice(index-1,1,[valueType,valueCost,valueFreq,custom]);
@@ -67,8 +60,14 @@ function addRow(type,index) {
             table.rows[index].cells[1].innerHTML = "$" + valueCost;
             table.rows[index].cells[2].innerHTML = valueFreq;
         } else {
-            data.push([valueType,valueCost,valueFreq,custom]);
-            window.sessionStorage.setItem(type, JSON.stringify(data));
+            if (type == "savings"){
+                var goalData = dateData(valueFreq,valueCost);
+                data.splice(index-1,1,[valueType,valueCost,valueFreq,custom,goalData[0],goalData[1]]);
+                window.sessionStorage.setItem(type, JSON.stringify(data));
+            } else {
+                data.push([valueType,valueCost,valueFreq,custom]);
+                window.sessionStorage.setItem(type, JSON.stringify(data));
+            }
             
             var table = document.querySelector("." + type+ " table");
             var row = table.insertRow(index);
@@ -184,7 +183,6 @@ function updateOverview(){
             total.iTotal += e[1]*4;
         else   
             total.iTotal += e[1];
-
     });
 
     expenses.forEach(e => {
@@ -194,10 +192,15 @@ function updateOverview(){
             total.eTotal += e[1];
     });
 
+    savings.forEach(e => {
+        total.sTotal += e[5];
+    });
+
     var net = total.iTotal - total.eTotal - total.sTotal;
 
     document.querySelector("#income-overview span").innerHTML = total.iTotal;
     document.querySelector("#expenses-overview span").innerHTML = total.eTotal;
+    document.querySelector("#savings-overview span").innerHTML = total.sTotal;
     document.querySelector("#balance span").innerHTML = net;
 
     if (net < 0)
@@ -205,4 +208,16 @@ function updateOverview(){
     else if (net > 0)
         document.querySelector("#balance span").style.color = "green";
 
+}
+
+function dateData (date, cost){
+    const d = new Date();
+    const mm = d.getMonth();
+    const yyyy = d.getYear();
+
+    var nDate = new Date(date);
+    var diff = ((nDate.getYear()-yyyy)*12) + (nDate.getMonth() - mm)+1;
+    var payment = Math.ceil(cost/diff);
+    var x = [diff, payment];
+    return x;
 }
