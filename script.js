@@ -62,7 +62,7 @@ function addRow(type,index) {
         } else {
             if (type == "savings"){
                 var goalData = dateData(valueFreq,valueCost);
-                data.splice(index-1,1,[valueType,valueCost,valueFreq,custom,goalData[0],goalData[1]]);
+                data.push([valueType,valueCost,valueFreq,custom,goalData[0],goalData[1]]);
                 window.sessionStorage.setItem(type, JSON.stringify(data));
             } else {
                 data.push([valueType,valueCost,valueFreq,custom]);
@@ -158,7 +158,7 @@ function submit() {
     window.localStorage.setItem("budget",JSON.stringify(budget));
 }
 
-function updateOverview(){
+function updateOverview(type,index){
     if (window.sessionStorage.getItem("expense") != null){
         var expenses = JSON.parse(window.sessionStorage.getItem("expense"));
     } else 
@@ -179,19 +179,13 @@ function updateOverview(){
     };
 
     income.forEach(e => {
-        var ul = document.querySelector("#income-details ul");
-        var li = document.createElement("li");
-        ul.appendChild(li);
-
         if (e[2] == "Weekly"){
             var x = e[1]*4;
             total.iTotal += x;
-            li.innerHTML = e[0] + "(Weekly): $" + e[1] + "* 4 = $" + x;
         }
             
         else {
             total.iTotal += e[1];
-            li.innerHTML = e[0] + "(Monthly): $" + e[1];
         }
     });
 
@@ -232,11 +226,12 @@ function dateData (date, cost){
     return x;
 }
 
-function toggleHidden(id){
-    if (document.getElementById(id).style.display == "none"){
-        document.getElementById(id).style.display = "block";
-    } else if (document.getElementById(id).style.display == "block"){
-        document.getElementById(id).style.display = "none";
-    }
-    console.log(document.getElementById(id).style.display);
+function toggleHidden(btn, id){
+    var x = document.getElementById(id);
+    var y = btn;
+    x.classList.toggle("hidden");
+    if (btn.innerHTML == "+")
+        btn.innerHTML = "-";
+    else
+        btn.innerHTML = "+";
 }

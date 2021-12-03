@@ -83,3 +83,7 @@
 #savings-overview span {
     color: red;
 }
+
+#overview li {
+    list-style-type: none;
+}

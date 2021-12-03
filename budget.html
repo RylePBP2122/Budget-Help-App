@@ -156,26 +156,25 @@
             <h3>Budget Overview</h3>
             <div id="income-overview">
                 <label>Income: $<span></span></label>
-                <button type="button">+</button>
-                <div id="income-details">
+                <button type="button" onclick="toggleHidden(this, 'income-details')">+</button>
+                <div id="income-details" class="hidden">
                     <ul>
                     </ul>
                 </div>
             </div>
-            <div id="expenses-overview">
+            <div id="expense-overview">
                 <label>Expenses: $<span></span></label>
-                <button type="button">+</button>
-                <div class="hidden" id="expenses-details">
+                <button type="button" onclick="toggleHidden(this, 'expense-details')">+</button>
+                <div class="hidden" id="expense-details">
                     <ul>
                     </ul>
                 </div>
             </div>
             <div id="savings-overview">
                 <label>Savings: $<span></span></label>
-                <button type="button">+</button>
+                <button type="button" onclick="toggleHidden(this, 'savings-details')">+</button>
                 <div class="hidden" id="savings-details">
-                    <table>
-                    </table>
+                    <ul></ul>
                 </div>
             </div>
             <div id="balance">
