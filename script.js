@@ -52,7 +52,11 @@ function addRow(type,index) {
                 data.splice(index-1,1,[valueType,valueCost,valueFreq,custom,goalData[0],goalData[1]]);
                 window.sessionStorage.setItem(type, JSON.stringify(data));
             } else {
-                data.splice(index-1,1,[valueType,valueCost,valueFreq,custom]);
+                if (valueFreq == "Weekly")
+                    var pay = valueCost*4;
+                else
+                    var pay = valueCost;
+                data.splice(index-1,1,[valueType,valueCost,valueFreq,custom,pay]);
                 window.sessionStorage.setItem(type, JSON.stringify(data));
             }
             var table = document.querySelector("." + type+ " table");
@@ -65,7 +69,11 @@ function addRow(type,index) {
                 data.push([valueType,valueCost,valueFreq,custom,goalData[0],goalData[1]]);
                 window.sessionStorage.setItem(type, JSON.stringify(data));
             } else {
-                data.push([valueType,valueCost,valueFreq,custom]);
+                if (valueFreq == "Weekly")
+                    var pay = valueCost*4;
+                else
+                    var pay = valueCost;
+                data.push([valueType,valueCost,valueFreq,custom,pay]);
                 window.sessionStorage.setItem(type, JSON.stringify(data));
             }
             
@@ -179,21 +187,11 @@ function updateOverview(type,index){
     };
 
     income.forEach(e => {
-        if (e[2] == "Weekly"){
-            var x = e[1]*4;
-            total.iTotal += x;
-        }
-            
-        else {
-            total.iTotal += e[1];
-        }
+        total.iTotal += e[4];
     });
 
     expenses.forEach(e => {
-        if (e[2] == "Weekly")
-            total.eTotal += e[1]*4;
-        else   
-            total.eTotal += e[1];
+        total.eTotal += e[4];
     });
 
     savings.forEach(e => {
@@ -203,7 +201,7 @@ function updateOverview(type,index){
     var net = total.iTotal - total.eTotal - total.sTotal;
 
     document.querySelector("#income-overview span").innerHTML = total.iTotal;
-    document.querySelector("#expenses-overview span").innerHTML = total.eTotal;
+    document.querySelector("#expense-overview span").innerHTML = total.eTotal;
     document.querySelector("#savings-overview span").innerHTML = total.sTotal;
     document.querySelector("#balance span").innerHTML = net;
 
