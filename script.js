@@ -44,8 +44,10 @@ function addRow(type,index) {
 
 
     if (valueType != "" && valueCost != "" && valueFreq != ""){
-        if (data.length == 0)
-            document.getElementById(type + "-table").style.display = "block";
+        if (data.length == 0){
+            document.getElementById(type + "-table").classList.toggle("hidden");
+            document.getElementById(type + "-overview-table").classList.toggle("hidden");
+        }
         if (index != -1){
             if (type == "savings"){
                 var goalData = dateData(valueFreq,valueCost);
@@ -92,24 +94,57 @@ function addRow(type,index) {
             edit.addEventListener("click", function(){editRow(type, edit.firstChild)});
             del.innerHTML = "<button id='delete' type='button'>Delete</button>";
             del.addEventListener("click", function(){removeRow(type, del.firstChild)});
+        }
+        updateOverview();
+        var oTable = document.getElementById(type + "-overview-table");
+
+        if (index != -1){
+            if(type == "savings"){
+                oTable.rows[index].cells[0].innerHTML = valueType;
+                oTable.rows[index].cells[1].innerHTML = goalData[0];
+                oTable.rows[index].cells[2].innerHTML = "$" + goalData[1];
+            } else {
+                oTable.rows[index].cells[0].innerHTML = valueType;
+                oTable.rows[index].cells[1].innerHTML = "$" + valueCost;
+            }
+        } else {
+            var oRow = oTable.insertRow();
+            if (type == "savings"){
+                var cellName = oRow.insertCell(0);
+                var cellMonths = oRow.insertCell(1);
+                var cellPay  = oRow.insertCell(2);
+                cellName.innerHTML = valueType;
+                cellMonths.innerHTML = goalData[0];
+                cellPay.innerHTML = "$" + goalData[1];
+            } else {
+                var cellName = oRow.insertCell(0);
+                var cellPay  = oRow.insertCell(1);
+                cellName.innerHTML = valueType;
+                cellPay.innerHTML = "$" + pay;
+            }
         }     
     }
-    updateOverview();
 }
 
 function removeRow(type, btn){
     var td = btn.parentNode;
     var tr = td.parentNode;
+    var index = tr.rowIndex;
 
     var data = JSON.parse(window.sessionStorage.getItem(type));
     data.splice(tr.rowIndex-1,1)
     window.sessionStorage.setItem(type,JSON.stringify(data));
 
     tr.parentNode.removeChild(tr);
-    if (data.length == 0)
-        document.getElementById(type + "-table").style.display = "none";
-
+    if (data.length == 0){
+        document.getElementById(type + "-table").classList.toggle("hidden");
+        document.getElementById(type + "-overview-table").classList.toggle("hidden");
+    }
+        
     updateOverview();
+
+    var table = document.getElementById(type + "-overview-table");
+    table.deleteRow(index);
 }
 
 function editRow(type,btn){

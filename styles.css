@@ -3,6 +3,14 @@
     display: flex;
 }
 
+.container-child {
+    padding: 20px;
+}
+
+#nav {
+    padding: 0 20px 0 0;
+}
+
 #nav ul {
     list-style-type: none;
     margin: 0;
@@ -28,24 +36,24 @@
     background-color: rgb(198, 232, 255);
 }
 
-#form table {
+table {
     border-spacing: 0;
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-#form th {
+th {
     font-weight: normal;
     background-color:rgb(192, 192, 192);
     text-align: left;
     padding: 10px;
 }
 
-#form tr {
+tr {
     background-color:rgb(226, 226, 226);    
 }
 
-#form td {
+td {
     margin: 0;
     padding: 10px;
 }

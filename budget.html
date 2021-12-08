@@ -8,7 +8,7 @@
 </head>
 <body>    
     <div class="container">
-        <div id="nav">
+        <div class="container-child" id="nav">
             <nav>
                 <ul>
                     <li><a href="index.html">Overview</a></li>
@@ -17,7 +17,7 @@
                 </ul>
             </nav>  
         </div>
-        <div id="form">
+        <div class="container-child" id="form">
             <h3>Create a Budget</h3>
             <form>
                 <label for="name">Budget Name</label>
@@ -152,29 +152,41 @@
                 <button id="submit" type="submit">Create Budget</button>
             </form>
         </div>
-        <div id="overview">
+        <div class="container-child" id="overview">
             <h3>Budget Overview</h3>
             <div id="income-overview">
                 <label>Income: $<span></span></label>
                 <button type="button" onclick="toggleHidden(this, 'income-details')">+</button>
                 <div id="income-details" class="hidden">
-                    <ul>
-                    </ul>
+                    <table id="income-overview-table" class="hidden">
+                        <tr>
+                            <th>Name</th>
+                            <th>Monthly Expense</th>
+                        </tr>
+                    </table>
                 </div>
             </div>
             <div id="expense-overview">
                 <label>Expenses: $<span></span></label>
                 <button type="button" onclick="toggleHidden(this, 'expense-details')">+</button>
                 <div class="hidden" id="expense-details">
-                    <ul>
-                    </ul>
+                    <table id="expense-overview-table" class="hidden">
+                        <tr>
+                            <th>Name</th>
+                            <th>Monthly Expense</th>
+                        </tr>
+                    </table>
                 </div>
             </div>
             <div id="savings-overview">
                 <label>Savings: $<span></span></label>
                 <button type="button" onclick="toggleHidden(this, 'savings-details')">+</button>
                 <div class="hidden" id="savings-details">
-                    <ul></ul>
+                    <table id="savings-overview-table" class="hidden">
+                        <th>Name</th>
+                        <th>Months</th>
+                        <th>Monthly Payment</th>
+                    </table>
                 </div>
             </div>
             <div id="balance">
