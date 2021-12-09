@@ -275,7 +275,6 @@ function dateData (date, cost){
 
 function toggleHidden(btn, id){
     var x = document.getElementById(id);
-    var y = btn;
     x.classList.toggle("hidden");
     if (btn.innerHTML == "+")
         btn.innerHTML = "-";
