@@ -96,6 +96,7 @@ function addRow(type,index) {
             del.addEventListener("click", function(){removeRow(type, del.firstChild)});
         }
         updateOverview();
+
         var oTable = document.getElementById(type + "-overview-table");
 
         if (index != -1){
@@ -105,7 +106,7 @@ function addRow(type,index) {
                 oTable.rows[index].cells[2].innerHTML = "$" + goalData[1];
             } else {
                 oTable.rows[index].cells[0].innerHTML = valueType;
-                oTable.rows[index].cells[1].innerHTML = "$" + valueCost;
+                oTable.rows[index].cells[1].innerHTML = "$" + pay;
             }
         } else {
             var oRow = oTable.insertRow();
@@ -187,18 +188,28 @@ function submit() {
         var income = JSON.parse(window.sessionStorage.getItem("income"));
     } else 
         var income = [];
+    if (window.sessionStorage.getItem("totalData") != null){
+        var total = JSON.parse(window.sessionStorage.getItem("totalData"));
+    } else 
+        var total = [];
 
-    var budget = {
-        n:name,
-        i:income,
-        e:expenses,
-        s:savings
+    if(total.net > 0){
+        var budget = {
+            n:name,
+            i:income,
+            e:expenses,
+            s:savings
+        }
+        
+        window.sessionStorage.removeItem("expense");
+        window.sessionStorage.removeItem("savings");
+        window.sessionStorage.removeItem("income");
+        window.sessionStorage.removeItem("totalData");
+        window.localStorage.setItem("budget",JSON.stringify(budget));
+    } else {
+        alert("Cannot Create Budget, Negative Balance");
     }
     
-    window.sessionStorage.removeItem("expense");
-    window.sessionStorage.removeItem("savings");
-    window.sessionStorage.removeItem("income");
-    window.localStorage.setItem("budget",JSON.stringify(budget));
 }
 
 function updateOverview(type,index){
@@ -218,7 +229,8 @@ function updateOverview(type,index){
     var total = {
         iTotal: 0,
         eTotal: 0,
-        sTotal: 0
+        sTotal: 0,
+        net: 0
     };
 
     income.forEach(e => {
@@ -233,16 +245,18 @@ function updateOverview(type,index){
         total.sTotal += e[5];
     });
 
-    var net = total.iTotal - total.eTotal - total.sTotal;
+    total.net = total.iTotal - total.eTotal - total.sTotal;
+
+    window.sessionStorage.setItem("totalData",JSON.stringify(total));
 
     document.querySelector("#income-overview span").innerHTML = total.iTotal;
     document.querySelector("#expense-overview span").innerHTML = total.eTotal;
     document.querySelector("#savings-overview span").innerHTML = total.sTotal;
-    document.querySelector("#balance span").innerHTML = net;
+    document.querySelector("#balance span").innerHTML = total.net;
 
-    if (net < 0)
+    if (total.net < 0)
         document.querySelector("#balance span").style.color = "red";
-    else if (net > 0)
+    else if (total.net > 0)
         document.querySelector("#balance span").style.color = "green";
 
 }
