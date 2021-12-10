@@ -193,22 +193,30 @@ function submit() {
     } else 
         var total = [];
 
-    if(total.net > 0){
-        var budget = {
-            n:name,
-            i:income,
-            e:expenses,
-            s:savings
+    var valid = false;
+
+    if (income.length > 0)
+        valid = true;
+    if (valid){
+        if(total.net >= 0){
+            var budget = {
+                n:name,
+                i:income,
+                e:expenses,
+                s:savings
+            }
+            
+            window.sessionStorage.removeItem("expense");
+            window.sessionStorage.removeItem("savings");
+            window.sessionStorage.removeItem("income");
+            window.sessionStorage.removeItem("totalData");
+            window.localStorage.setItem("budget",JSON.stringify(budget));
+        } else {
+            alert("Cannot Create Budget, Negative Balance");
         }
-        
-        window.sessionStorage.removeItem("expense");
-        window.sessionStorage.removeItem("savings");
-        window.sessionStorage.removeItem("income");
-        window.sessionStorage.removeItem("totalData");
-        window.localStorage.setItem("budget",JSON.stringify(budget));
-    } else {
-        alert("Cannot Create Budget, Negative Balance");
-    }
+    } else
+        alert("Cannot Create Budget, No Income added");
+    
     
 }
 
