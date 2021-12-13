@@ -1,0 +1,75 @@
+.container {
+    display: flex;
+}
+
+.container-child {
+    padding: 20px;
+}
+
+#nav {
+    padding: 0 20px 0 0;
+    margin: 0;
+}
+
+#nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+#nav li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+#nav li a:hover {
+    background-color: rgb(226, 226, 226);
+}
+
+.active {
+    background-color: rgb(198, 232, 255);
+}
+.active:hover {
+    background-color: rgb(198, 232, 255);
+}
+
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+  button {
+    background-color: #04AA6D;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  
+  .cancel {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+  }
+  
+  .form-container {
+    padding: 16px;
+  }
+  
+  span {
+    float: right;
+    padding-top: 16px;
+  }
