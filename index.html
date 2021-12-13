@@ -4,19 +4,27 @@
 <head>
     <title>Budget Helper</title>
     <script type="text/javascript" src=""></script>
-    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="index.html">Overview</a></li>
-            <li><a href="create.html">Budget</a></li>
-            <li>Reports</li>
-        </ul>
-    </nav>
-    <h1><a>Overview</a></h1>
-    <div class="item">
-        <h2>Recent Transaction</h2>
+    <div class="parent">
+        <div class="container">
+            <ul>
+                <li class="left">Menu</li>
+                <li class="right"><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+        <div class="container">
+            <div class="container-child" id="nav">
+                <nav>
+                    <ul>
+                        <li><a class="active" href="index.html">Overview</a></li>
+                        <li><a href="create.html">Budget</a></li>
+                        <li><a href="">Reports</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </div>
 </body>
 </html>
