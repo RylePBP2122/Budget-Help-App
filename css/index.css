@@ -1,3 +1,11 @@
+body {
+    margin: 0;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
 .parent {
     display: flex;
     flex-direction: column;
@@ -9,6 +17,30 @@
 
 .container-child {
     padding: 20px;
+}
+
+#top-nav ul{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(235, 235, 235);
+}
+
+#top-nav li {
+    display: inline-block;
+    padding: 15px;
+}
+
+#top-nav li:hover {
+    background-color: rgb(179, 179, 179);
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
 }
 
 #nav {
