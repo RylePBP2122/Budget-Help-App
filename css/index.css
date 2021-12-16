@@ -3,7 +3,7 @@ body {
 }
 
 .hidden {
-    visibility: hidden;
+    display: none;
 }
 
 .parent {
@@ -44,7 +44,10 @@ body {
 }
 
 #nav {
-    padding: 0 20px 0 0;
+    position: absolute;
+    z-index: 1;
+    background-color: white;
+    padding: 0;
     margin: 0;
 }
 
@@ -72,3 +75,37 @@ body {
 .active:hover {
     background-color: rgb(198, 232, 255);
 }
+
+.container-child .overview {
+    display: none;
+}
+
+
+.budget-item {
+    list-style: none;
+    border: 1px solid grey;
+}
+
+.budget-item div {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+.budget-bar {
+    width: 200px;
+    height: 20px;
+    background-color: rgb(223, 223, 223);
+}
+
+.budget-percentage {
+    width: 0%;
+    height: 100%;
+    text-align: center;
+    background-color: green;
+}
+
+.budget-percentage .current-value{
+    color: black;
+}
+
