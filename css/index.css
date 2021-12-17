@@ -84,6 +84,7 @@ body {
 .budget-item {
     list-style: none;
     border: 1px solid grey;
+    margin: 10px 0 10px 0;
 }
 
 .budget-item div {
@@ -96,6 +97,10 @@ body {
     width: 200px;
     height: 20px;
     background-color: rgb(223, 223, 223);
+}
+
+.budget-name {
+    width: 90px;
 }
 
 .budget-percentage {
