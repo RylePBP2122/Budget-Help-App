@@ -1,11 +1,25 @@
 document.addEventListener("DOMContentLoaded", update);
 
 function update () {
+    if(checkBudget())
+        loadBudget();
     document.getElementById("add-savings").addEventListener("click",function(){addRow("savings",-1)});
     document.getElementById("add-expense").addEventListener("click",function(){addRow("expense",-1)});
     document.getElementById("add-income").addEventListener("click",function(){addRow("income",-1)});
     document.getElementById("submit").addEventListener("click",function(){submit()});
     window.sessionStorage.clear();
+}
+
+function checkBudget(){
+    if (window.localStorage.getItem("budget") != null){
+        return true;
+    } else
+        return false;
+}
+
+function loadBudget(){
+    var budget = window.localStorage.getItem("budget");
+    document.getElementById("name").value = budget.n;
 }
 
 function showHidden (divId, input, val){
