@@ -7,7 +7,6 @@ function update () {
     document.getElementById("add-expense").addEventListener("click",function(){addRow("expense",-1)});
     document.getElementById("add-income").addEventListener("click",function(){addRow("income",-1)});
     document.getElementById("submit").addEventListener("click",function(){submit()});
-    window.sessionStorage.clear();
 }
 
 function checkBudget(){
@@ -18,8 +17,22 @@ function checkBudget(){
 }
 
 function loadBudget(){
-    var budget = window.localStorage.getItem("budget");
+    var budget = JSON.parse(window.localStorage.getItem("budget"));
+    window.sessionStorage.setItem("income",JSON.stringify(budget.i));
+    window.sessionStorage.setItem("expense",JSON.stringify(budget.e));
+    window.sessionStorage.setItem("savings",JSON.stringify(budget.s));
+
     document.getElementById("name").value = budget.n;
+    budget.i.forEach(e => {
+        loadRow("income",e);
+    });
+    budget.e.forEach(e => {
+        loadRow("expense",e);
+    });
+    budget.s.forEach(e => {
+        loadRow("savings",e);
+    });
+
 }
 
 function showHidden (divId, input, val){
@@ -27,6 +40,53 @@ function showHidden (divId, input, val){
         document.getElementById(divId).style.display = "block";
     } else {
         document.getElementById(divId).style.display = "none";
+    }
+}
+
+function loadRow(type,e){
+    var table = document.getElementById(type + "-table");
+    table.classList.toggle("hidden");
+
+    var row = document.createElement("tr");
+    table.appendChild(row);
+    var cellType = document.createElement("td");
+    row.appendChild(cellType);
+    var cellCost = document.createElement("td");
+    row.appendChild(cellCost);
+    var cellFreq = document.createElement("td");
+    row.appendChild(cellFreq);
+    var edit = document.createElement("td");
+    row.appendChild(edit);
+    var del = document.createElement("td");
+    row.appendChild(del);
+
+    cellType.innerHTML = e[0];
+    cellCost.innerHTML = "$" + e[1];
+    cellFreq.innerHTML = e[2];
+    edit.innerHTML = "<button id='delete' type='button'>Edit</button>";
+    edit.addEventListener("click", function(){editRow(type, edit.firstChild)});
+    del.innerHTML = "<button id='delete' type='button'>Delete</button>";
+    del.addEventListener("click", function(){removeRow(type, del.firstChild)});
+
+    updateOverview();                
+    var goalData = dateData(e[2],e[1]);
+
+    var oTable = document.getElementById(type + "-overview-table");
+    oTable.classList.toggle("hidden");
+
+    var oRow = oTable.insertRow();
+    if (type == "savings"){
+        var cellName = oRow.insertCell(0);
+        var cellMonths = oRow.insertCell(1);
+        var cellPay  = oRow.insertCell(2);
+        cellName.innerHTML = e[0];
+        cellMonths.innerHTML = goalData[0];
+        cellPay.innerHTML = "$" + goalData[1];
+    } else {
+        var cellName = oRow.insertCell(0);
+        var cellPay  = oRow.insertCell(1);
+        cellName.innerHTML = e[0];
+        cellPay.innerHTML = "$" + e[4];
     }
 }
 
@@ -93,7 +153,7 @@ function addRow(type,index) {
                 window.sessionStorage.setItem(type, JSON.stringify(data));
             }
             
-            var table = document.querySelector("." + type+ " table");
+            var table = document.getElementById(type + "-table");
             var row = table.insertRow(index);
             var cellType = row.insertCell(0);
             var cellCost = row.insertCell(1);
