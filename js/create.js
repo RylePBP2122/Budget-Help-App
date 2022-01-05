@@ -23,6 +23,7 @@ function loadBudget(){
     window.sessionStorage.setItem("savings",JSON.stringify(budget.s));
 
     document.getElementById("name").value = budget.n;
+
     budget.i.forEach(e => {
         loadRow("income",e);
     });
@@ -33,20 +34,15 @@ function loadBudget(){
         loadRow("savings",e);
     });
 
-}
-
-function showHidden (divId, input, val){
-    if(input.value == val){
-        document.getElementById(divId).style.display = "block";
-    } else {
-        document.getElementById(divId).style.display = "none";
-    }
+    var tables = ["income","expense","savings",];
+    tables.forEach(e =>{
+        document.getElementById(e + "-table").classList.toggle("hidden");
+        document.getElementById(e + "-overview-table").classList.toggle("hidden");
+    });
 }
 
 function loadRow(type,e){
     var table = document.getElementById(type + "-table");
-    table.classList.toggle("hidden");
-
     var row = document.createElement("tr");
     table.appendChild(row);
     var cellType = document.createElement("td");
@@ -72,9 +68,8 @@ function loadRow(type,e){
     var goalData = dateData(e[2],e[1]);
 
     var oTable = document.getElementById(type + "-overview-table");
-    oTable.classList.toggle("hidden");
-
     var oRow = oTable.insertRow();
+
     if (type == "savings"){
         var cellName = oRow.insertCell(0);
         var cellMonths = oRow.insertCell(1);
@@ -268,6 +263,7 @@ function submit() {
         var total = [];
 
     var valid = false;
+    var error = document.querySelector("#error-msg p");
 
     if (income.length > 0)
         valid = true;
@@ -285,13 +281,13 @@ function submit() {
             window.sessionStorage.removeItem("income");
             window.sessionStorage.removeItem("totalData");
             window.localStorage.setItem("budget",JSON.stringify(budget));
+            error.innerHTML = "";
+            window.location.replace("index.html")
         } else {
-            alert("Cannot Create Budget, Negative Balance");
+            error.innerHTML = "Cannot Create Budget, Negative Balance";
         }
     } else
-        alert("Cannot Create Budget, No Income added");
-    
-    
+        error.innerHTML = "Cannot Create Budget, No Income added";
 }
 
 function updateOverview(type,index){
@@ -362,4 +358,17 @@ function toggleHidden(btn, id){
         btn.innerHTML = "-";
     else
         btn.innerHTML = "+";
+}
+
+function showDiv(divId){
+    var x = document.getElementById(divId);
+    x.classList.toggle("hidden");
+}
+
+function showHidden (divId, input, val){
+    if(input.value == val){
+        document.getElementById(divId).style.display = "block";
+    } else {
+        document.getElementById(divId).style.display = "none";
+    }
 }

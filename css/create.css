@@ -2,44 +2,6 @@
     margin: 0;
 }
 
-.container {
-    display: flex;
-}
-
-.container-child {
-    padding: 20px;
-}
-
-#nav {
-    padding: 0 20px 0 0;
-    margin: 0;
-}
-
-#nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-}
-
-#nav li a {
-    display: block;
-    color: #000;
-    padding: 8px 16px;
-    text-decoration: none;
-}
-
-#nav li a:hover {
-    background-color: rgb(226, 226, 226);
-}
-
-.active {
-    background-color: rgb(198, 232, 255);
-}
-.active:hover {
-    background-color: rgb(198, 232, 255);
-}
-
 table {
     border-spacing: 0;
     margin-top: 20px;
@@ -79,9 +41,22 @@ td {
     display: none;
 }
 
-#submit {
-    width: 100%;
+#error-msg p {
+    color: red;
+}
+
+#bottom-btn li {
+    list-style: none;
+    display: inline-block;
+    width: 49%;
     height: 30px;
+    padding: 0;
+    margin: 0;
+}
+
+#bottom-btn button {
+    height: 100%;
+    width: 100%;
 }
 
 #income-overview span {
