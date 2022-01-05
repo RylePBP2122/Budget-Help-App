@@ -75,12 +75,5 @@
   }
   
   #nav li a:hover {
-    background-color: rgb(226, 226, 226);
-  }
-  
-  .active {
-    background-color: rgb(198, 232, 255);
-  }
-  .active:hover {
-    background-color: rgb(198, 232, 255);
+    background-color: rgb(179, 179, 179);
   }

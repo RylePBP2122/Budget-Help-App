@@ -24,7 +24,7 @@
             <div class="container-child hidden" id="nav" onmouseleave="showDiv('nav')">
                 <ul>
                     <li><a href="index.html">Overview</a></li>
-                    <li><a class="active" href="create.html">Budget</a></li>
+                    <li><a href="create.html">Budget</a></li>
                 </ul>
             </div>
             <div class="container-child" id="form">
@@ -158,8 +158,10 @@
                             </li>
                         </ul>
                     </div>
-                    <br>
                     <div id="bottom-btn">
+                        <div id="error-msg">
+                            <p></p>
+                        </div>
                         <ul>
                             <li><button id="submit" type="button">Save Budget</button></li>
                             <li><a href="index.html"><button id="cancel" type="button">Cancel</button></a></li>
@@ -206,9 +208,6 @@
                 </div>
                 <div id="balance">
                     <p>Net Monthly Balance: $<span></span></p>
-                </div>
-                <div id="error-msg">
-                    <p></p>
                 </div>
             </div>
     </div>
