@@ -1,7 +1,3 @@
-
-.hidden {
-    display: none;
-  }
   
   .parent {
     display: flex;
@@ -15,54 +11,76 @@
   .container-child {
     padding: 20px;
   }
-  
-  #navbar a{
+
+  .navbar {
     background-color: rgb(235, 235, 235);
-    padding: 14px 16px;
-    height: 40px;
+    width: 100%;
+    height: 50px;
   }
   
-  #navbar a:hover {
+  .navbar a{
+    float: left;
+    background-color: rgb(235, 235, 235);
+    text-align: center;
+    text-decoration: none;
+    padding: 16px 16px;
+  }
+  
+  .navbar a:hover {
     background-color: rgb(179, 179, 179);
   }
   
-  .left {
-    float: left;
-  }
   
-  .right {
+  .navbar-right {
     float: right;
   }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    height: 50px;
+  }
+
+  #menu-btn {
+    padding: 14px 16px 14px 16px;
+  }
   
-  .menu-btn {
+  .menu-btn-lines {
     width: 23px;
     height: 2px;
     background-color: black;
-    margin: 6px 0;
+    padding: 0;
+    margin: 4px 0;
   }
   
   .dropdown-content {
+    display: none;
     position: absolute;
+    top: 50px;
+    min-width: 100px;
     z-index: 1;
     background-color: rgb(235, 235, 235);
     padding: 0;
     margin: 0;
   }
   
-  .dropdown-content ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-  }
-  
-  .dropdown-content li a {
+  .dropdown-content a {
     display: block;
-    color: #000;
+    color: black;
     padding: 8px 16px;
+    width: 100%;
+    text-align: left;
     text-decoration: none;
   }
   
   .dropdown-content li a:hover {
     background-color: rgb(179, 179, 179);
+  }
+
+  .shown {
+    display: block;
+  }
+
+  .hidden {
+    display: none;
   }

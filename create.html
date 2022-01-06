@@ -4,29 +4,32 @@
 <head>
     <title>Budget Helper</title>
     <script type="text/javascript" src="js/create.js"></script>
+    <script type="text/javascript" src="js/css.js"></script>
     <link rel="stylesheet" href="css/create.css">
     <link rel="stylesheet" href="css/nav.css">
 </head>
 <body>    
     <div class="parent">
-        <div class="container" id="top-nav">
-            <ul>
-                <li class="left" onclick="showDiv('nav')">
-                    <div class="menu-btn"></div>
-                    <div class="menu-btn"></div>
-                    <div class="menu-btn"></div>
-                </li>
-                <li class="right"><a href="login.html">Login</a></li>
-                <li class="right hidden"><a href="">Logout</a></li>
-                <li class="right"><a href="">Account</a></li>
-            </ul>
-        </div>
         <div class="container">
-            <div class="container-child hidden" id="nav" onmouseleave="showDiv('nav')">
-                <ul>
-                    <li><a href="index.html">Overview</a></li>
-                    <li><a href="create.html">Budget</a></li>
-                </ul>
+            <div class="container-child">
+                <div class="navbar">
+                    <div class="dropdown">
+                        <a id="menu-btn" id onclick="showDiv('.dropdown-content')">
+                            <div class="menu-btn-lines"></div>
+                            <div class="menu-btn-lines"></div>
+                            <div class="menu-btn-lines"></div>
+                        </a>
+                        <div class="dropdown-content" onmouseleave="showDiv('.dropdown-content')">
+                            <a href="index.html">Overview</a>
+                            <a href="create.html">Budget</a>
+                        </div>
+                    </div>
+                    <div class="navbar-right">
+                        <a href="login.html">Login</a>
+                        <a href="">Logout</a>
+                        <a href="">Account</a>
+                    </div> 
+                </div>
             </div>
             <div class="container-child" id="form">
                 <h3>Create a Budget</h3>
@@ -211,6 +214,6 @@
                     <p>Net Monthly Balance: $<span></span></p>
                 </div>
             </div>
-    </div>
+        </div>
 </body>
 </html>

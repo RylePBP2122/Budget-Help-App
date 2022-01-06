@@ -88,11 +88,3 @@ function update(){
         x.classList.add("hidden");
     }
 }
-
-
-//css functions
-
-function showDiv(classID){
-    var x = document.querySelector(classID);
-    x.classList.toggle("hidden");
-}

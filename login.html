@@ -4,49 +4,52 @@
 <head>
     <title>Budget Helper</title>
     <script type="text/javascript" src="js/login.js"></script>
+    <script type="text/javascript" src="js/css.js"></script>
     <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="css/nav.css">
 </head>
 <body>
     <body>
         <div class="parent">
-            <div class="container" id="top-nav">
-                <ul>
-                    <li class="left" onclick="showDiv('nav')">
-                        <div class="menu-btn"></div>
-                        <div class="menu-btn"></div>
-                        <div class="menu-btn"></div>
-                    </li>
-                    <li class="right"><a href="login.html">Login</a></li>
-                    <li class="right"><a href="">Logout</a></li>
-                </ul>
-            </div>
             <div class="container">
-                <div class="container-child hidden" id="nav" onmouseleave="showDiv('nav')">
-                    <ul>
-                        <li><a href="index.html">Overview</a></li>
-                        <li><a href="create.html">Budget</a></li>
-                    </ul>
-                </div>
-                <div class="container-child" id="login">
-                    <form>
-                        <div class="form-container">
-                            <label for="username">Username</label>
-                            <input type="text" name="username" id="username" placeholder="Enter Username" required>
-                            <label for="password">Password</label>
-                            <input type="text" name="password" id="password" placeholder="Enter Password" required>
-                            <button type="submit" id="login-button">Login</button>
-                            <label>
-                                <input type="checkbox" name="remember" checked> Remember Me
-                            </label>
+                <div class="navbar">
+                    <div class="dropdown">
+                        <a id="menu-btn" id onclick="showDiv('.dropdown-content')">
+                             <div class="menu-btn-lines"></div>
+                             <div class="menu-btn-lines"></div>
+                             <div class="menu-btn-lines"></div>
+                        </a>
+                        <div class="dropdown-content" onmouseleave="showDiv('.dropdown-content')">
+                            <a href="index.html">Overview</a>
+                            <a href="create.html">Budget</a>
                         </div>
-                        <div class="form-container">
-                            <a href="index.html"><button type="button" class="cancel">Cancel</button></a>
-                            <span>Forgot <a href="#">password?</a></span>
-                        </div>
-                    </form>
+                     </div>
+                     <div class="navbar-right">
+                         <a href="login.html">Login</a>
+                         <a href="">Logout</a>
+                         <a href="">Account</a>
+                     </div> 
                 </div>
+            </div>
+            <div class="container-child" id="login">
+                <form>
+                    <div class="form-container">
+                        <label for="username">Username</label>
+                        <input type="text" name="username" id="username" placeholder="Enter Username" required>
+                        <label for="password">Password</label>
+                        <input type="text" name="password" id="password" placeholder="Enter Password" required>
+                        <button type="submit" id="login-button">Login</button>
+                        <label>
+                            <input type="checkbox" name="remember" checked> Remember Me
+                        </label>
+                    </div>
+                    <div class="form-container">
+                        <a href="index.html"><button type="button" class="cancel">Cancel</button></a>
+                        <span>Forgot <a href="#">password?</a></span>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
 </body>
 </html>
