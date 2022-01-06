@@ -15,25 +15,14 @@
   .container-child {
     padding: 20px;
   }
-
-  #top-nav {
-    height: 50px;
-  }
   
-  #top-nav ul{
-    width: 100%;
-    margin: 0;
-    padding: 0;
+  #navbar a{
     background-color: rgb(235, 235, 235);
-  }
-  
-  #top-nav li {
-    display: inline-block;
-    padding: 10px 10px 0 10px;
+    padding: 14px 16px;
     height: 40px;
   }
   
-  #top-nav li:hover {
+  #navbar a:hover {
     background-color: rgb(179, 179, 179);
   }
   
@@ -52,7 +41,7 @@
     margin: 6px 0;
   }
   
-  #nav {
+  .dropdown-content {
     position: absolute;
     z-index: 1;
     background-color: rgb(235, 235, 235);
@@ -60,20 +49,20 @@
     margin: 0;
   }
   
-  #nav ul {
+  .dropdown-content ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     height: 100%;
   }
   
-  #nav li a {
+  .dropdown-content li a {
     display: block;
     color: #000;
     padding: 8px 16px;
     text-decoration: none;
   }
   
-  #nav li a:hover {
+  .dropdown-content li a:hover {
     background-color: rgb(179, 179, 179);
   }

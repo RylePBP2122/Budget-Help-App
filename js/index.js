@@ -92,7 +92,7 @@ function update(){
 
 //css functions
 
-function showDiv(divId){
-    var x = document.getElementById(divId);
+function showDiv(classID){
+    var x = document.querySelector(classID);
     x.classList.toggle("hidden");
 }
