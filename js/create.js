@@ -36,8 +36,10 @@ function loadBudget(){
 
     var tables = ["income","expense","savings",];
     tables.forEach(e =>{
-        document.getElementById(e + "-table").classList.toggle("hidden");
-        document.getElementById(e + "-overview-table").classList.toggle("hidden");
+        if(JSON.parse(window.sessionStorage.getItem(e)).length > 0){
+            document.getElementById(e + "-table").classList.toggle("hidden");
+            document.getElementById(e + "-overview-table").classList.toggle("hidden");
+        }
     });
 }
 

@@ -41,6 +41,10 @@
     height: 50px;
   }
 
+  #menu {
+    float: left;
+  }
+
   #menu-btn {
     padding: 14px 16px 14px 16px;
   }
