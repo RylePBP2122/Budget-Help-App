@@ -39,7 +39,7 @@ function update(){
 
             var currentVal = document.createElement("span");
             currentVal.classList.add("current-value");
-            currentVal.innerHTML = "$0";
+            currentVal.innerHTML = "$100"; //set value example
             if (p > 20)
                 currentVal.style.color = "white";
             percentDiv.appendChild(currentVal);
@@ -68,11 +68,12 @@ function update(){
             percentDiv.classList.add("budget-percentage");
             var p = Math.floor((100/e[4])*100); // Set to 100 for example need to implement real data
             percentDiv.style.width = p + "%";
+            percentDiv.style.backgroundColor = "red";
             barDiv.appendChild(percentDiv);
 
             var currentVal = document.createElement("span");
             currentVal.classList.add("current-value");
-            currentVal.innerHTML = "$0";
+            currentVal.innerHTML = "$100"; //example value
             if (p > 20)
                 currentVal.style.color = "white";
             percentDiv.appendChild(currentVal);
