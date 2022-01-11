@@ -81,6 +81,28 @@
     background-color: rgb(179, 179, 179);
   }
 
+  table {
+    border-spacing: 0;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+th {
+    font-weight: normal;
+    background-color:rgb(192, 192, 192);
+    text-align: left;
+    padding: 10px;
+}
+
+tr {
+    background-color:rgb(226, 226, 226);    
+}
+
+td {
+    margin: 0;
+    padding: 10px;
+}
+
   .shown {
     display: block;
   }
