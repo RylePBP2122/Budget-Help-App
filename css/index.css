@@ -6,6 +6,9 @@ body {
     display: none;
 }
 
+#overview-list {
+    padding: 0;
+}
 
 .budget-item {
     list-style: none;
