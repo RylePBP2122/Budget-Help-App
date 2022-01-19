@@ -284,7 +284,7 @@ function submit() {
             window.sessionStorage.removeItem("totalData");
             window.localStorage.setItem("budget",JSON.stringify(budget));
             error.innerHTML = "";
-            window.location.replace("index.html")
+            window.location.replace("overview.html")
         } else {
             error.innerHTML = "Cannot Create Budget, Negative Balance";
         }
