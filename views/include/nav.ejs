@@ -1,0 +1,24 @@
+<div class="navbar">
+    <div class="dropdown" id="menu">
+        <a id="menu-btn" onclick="showDiv('menu-dropdown')">
+            <div class="menu-btn-lines"></div>
+            <div class="menu-btn-lines"></div>
+            <div class="menu-btn-lines"></div>
+        </a>
+        <div class="dropdown-content" id="menu-dropdown" onmouseleave="showDiv('menu-dropdown')">
+            <a href="/">Overview</a>
+            <a href="create">Budget</a>
+        </div>
+    </div>
+    <a href="/">Home</a>
+    <div class="navbar-right">
+        <a href="login">Login</a>
+        <div class="dropdown">
+            <a onclick="showDiv('account-dropdown')">Account</a>
+            <div class="dropdown-content" id="account-dropdown" onmouseleave="showDiv('account-dropdown')">
+                <a href="">Settings</a>
+                <a href="">Logout</a>
+            </div>
+        </div>
+    </div> 
+</div>
