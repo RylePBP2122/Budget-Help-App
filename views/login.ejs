@@ -7,6 +7,7 @@
     <script type="text/javascript" src="js/global.js"></script>
     <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/message.css">
 </head>
 <body>
     <div class="parent">
@@ -14,6 +15,7 @@
             <%- include ("./include/nav") %>
         </div>
         <div class="container-child" id="login">
+            <%- include ("./include/message") %>
             <form action="/login" method="POST">
                 <div class="form-container">
                     <label for="username">Username</label>
