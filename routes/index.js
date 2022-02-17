@@ -88,4 +88,54 @@ router.get('/create', (req, res) => {
   res.render('create');
 });
 
+//SAVE BUDGET
+
+router.post('/save-budget', (req, res) => {
+  const budget = req.body;
+  var sql = "SELECT id FROM accounts WHERE username = ?";
+  var values = "admin";
+
+  function insertData(sql, values){
+    connection.query(sql, values, function(error,results){
+      if (error){
+        throw error;
+      }
+      var user_id = results[0].id;
+
+      var incomeValues = [];
+      budget.i.forEach(e => {
+        incomeValues.push([user_id, e[0], e[1], e[2]]);
+      });
+      var expenseValues = [];
+      budget.e.forEach(e => {
+        expenseValues.push([user_id, e[0], e[1], e[2]]);
+      });
+      var savingsValues = [];
+      budget.s.forEach(e => {
+        savingsValues.push([user_id, e[0], e[1], e[5], e[2]]);
+      });
+      var values = [user_id, incomeValues, user_id, expenseValues, user_id, savingsValues];
+
+      var sql = "DELETE FROM income WHERE user_id = ?;";
+      sql += "INSERT INTO income (user_id, name, total, freq) VALUES ?;";
+      sql += "DELETE FROM expenses WHERE user_id = ?;";
+      sql += "INSERT INTO expenses (user_id, type, total, freq) VALUES ?;";
+      sql += "DELETE FROM savings WHERE user_id = ?;";
+      sql += "INSERT INTO savings (user_id, type, total, monthly_payment, goal_date) VALUES ?";
+
+      connection.query(sql, values, function(error, results){
+        if (error){
+          throw error;
+        }
+          var rows = 0;
+          results.forEach(e=>{
+            rows += e.affectedRows;
+          });
+          console.log("Number of rows inserted: " + rows);
+      });
+    });
+  }
+  insertData(sql, values);
+});
+
 module.exports = router;

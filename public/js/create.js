@@ -284,9 +284,23 @@ function submit() {
             window.sessionStorage.removeItem("totalData");
             window.localStorage.setItem("budget",JSON.stringify(budget));
             error.innerHTML = "";
-            var request = new XMLHttpRequest();
-            request.open("POST", "/submit-form");
-            request.send(budget);
+            
+            fetch('/save-budget', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(budget),
+            }).then(result => result.json())
+            .then(response => {
+                if(response.status == 200){
+                    window.location.href = '/';
+                }
+                else {
+                    console.log(response.message);
+                }
+            });
+
         } else {
             error.innerHTML = "Cannot Create Budget, Negative Balance";
         }
