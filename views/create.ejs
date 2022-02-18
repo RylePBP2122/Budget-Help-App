@@ -16,7 +16,7 @@
         <div class="container">
             <div class="container-child" id="form">
                 <h3>Create a Budget</h3>
-                <div>
+                <form action="/save-budget" id="budget-form">
                     <label for="name">Budget Name</label>
                     <input type="text" id="name" name="name" required/>
                     <br>
@@ -150,7 +150,7 @@
                             <p></p>
                         </div>
                         <ul>
-                            <li><button id="submit" type="button">Save Budget</button></li>
+                            <li><button id="submit" type="submit">Save Budget</button></li>
                             <li><a href="/"><button id="cancel" type="button">Cancel</button></a></li>
                         </ul>
                     </div>

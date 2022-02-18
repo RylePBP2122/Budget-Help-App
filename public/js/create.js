@@ -6,7 +6,7 @@ function update () {
     document.getElementById("add-savings").addEventListener("click",function(){addRow("savings",-1)});
     document.getElementById("add-expense").addEventListener("click",function(){addRow("expense",-1)});
     document.getElementById("add-income").addEventListener("click",function(){addRow("income",-1)});
-    document.getElementById("submit").addEventListener("click",function(){submit()});
+    document.getElementById("budget-form").addEventListener("submit",function(){submit()});
 }
 
 function checkBudget(){
@@ -244,7 +244,7 @@ function editRow(type,btn){
     document.getElementById("edit-" + type).addEventListener("click",function(){addRow(type,index)});
 }
 
-function submit() {
+function submit(event) {
     var name = document.getElementById("name").value;
 
     if (window.sessionStorage.getItem("expense") != null){
@@ -284,22 +284,8 @@ function submit() {
             window.sessionStorage.removeItem("totalData");
             window.localStorage.setItem("budget",JSON.stringify(budget));
             error.innerHTML = "";
-            
-            fetch('/save-budget', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(budget),
-            }).then(result => result.json())
-            .then(response => {
-                if(response.status == 200){
-                    window.location.href = '/';
-                }
-                else {
-                    console.log(response.message);
-                }
-            });
+
+            handleFormInput(event, budget);
 
         } else {
             error.innerHTML = "Cannot Create Budget, Negative Balance";
@@ -388,5 +374,41 @@ function showHidden (divId, input, val){
         document.getElementById(divId).style.display = "block";
     } else {
         document.getElementById(divId).style.display = "none";
+    }
+}
+
+async function postFormDataAsJson({ url, formData }) {
+	const plainFormData = Object.fromEntries(formData.entries());
+	const formDataJsonString = JSON.stringify(plainFormData);
+
+	const fetchOptions = {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Accept: "application/json",
+		},
+		body: formDataJsonString,
+	};
+
+	const response = await fetch(url, fetchOptions);
+
+	if (!response.ok) {
+		const errorMessage = await response.text();
+		throw new Error(errorMessage);
+	}
+
+	return response.json();
+}
+
+async function handleFormInput(event, budget){
+    const form = event.currentTarget;
+    const url = form.action;
+
+    try {
+        const formData = new FormData(budget);
+        const responseData = await postFormAsJson({url, formData});
+        console.log(responseData);
+    } catch (error){
+        console.error(error);
     }
 }

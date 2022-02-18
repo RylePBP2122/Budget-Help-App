@@ -136,6 +136,7 @@ router.post('/save-budget', (req, res) => {
     });
   }
   insertData(sql, values);
+  res.redirect('/');
 });
 
 module.exports = router;
