@@ -1,7 +1,6 @@
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const path = require('path');
 const routes = require('./routes');
 const dotenv = require('dotenv');
 const connection = require('./database');

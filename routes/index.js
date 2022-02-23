@@ -91,7 +91,10 @@ router.get('/create', (req, res) => {
 //SAVE BUDGET
 
 router.post('/save-budget', (req, res) => {
-  const budget = req.body;
+  const budget = JSON.parse(JSON.stringify(req.body));
+  const income = JSON.parse(budget.i);
+  const expense = JSON.parse(budget.e);
+  const savings = JSON.parse(budget.s);
   var sql = "SELECT id FROM accounts WHERE username = ?";
   var values = "admin";
 
@@ -103,15 +106,15 @@ router.post('/save-budget', (req, res) => {
       var user_id = results[0].id;
 
       var incomeValues = [];
-      budget.i.forEach(e => {
+      income.forEach(e => {
         incomeValues.push([user_id, e[0], e[1], e[2]]);
       });
       var expenseValues = [];
-      budget.e.forEach(e => {
+      expense.forEach(e => {
         expenseValues.push([user_id, e[0], e[1], e[2]]);
       });
       var savingsValues = [];
-      budget.s.forEach(e => {
+      savings.forEach(e => {
         savingsValues.push([user_id, e[0], e[1], e[5], e[2]]);
       });
       var values = [user_id, incomeValues, user_id, expenseValues, user_id, savingsValues];

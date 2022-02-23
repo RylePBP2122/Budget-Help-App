@@ -6,7 +6,7 @@ function update () {
     document.getElementById("add-savings").addEventListener("click",function(){addRow("savings",-1)});
     document.getElementById("add-expense").addEventListener("click",function(){addRow("expense",-1)});
     document.getElementById("add-income").addEventListener("click",function(){addRow("income",-1)});
-    document.getElementById("budget-form").addEventListener("submit",function(){submit()});
+    document.getElementById("budget-form").addEventListener("submit", submit );
 }
 
 function checkBudget(){
@@ -285,7 +285,7 @@ function submit(event) {
             window.localStorage.setItem("budget",JSON.stringify(budget));
             error.innerHTML = "";
 
-            handleFormInput(event, budget);
+            handleFormSubmit(event, budget);
 
         } else {
             error.innerHTML = "Cannot Create Budget, Negative Balance";
@@ -400,15 +400,25 @@ async function postFormDataAsJson({ url, formData }) {
 	return response.json();
 }
 
-async function handleFormInput(event, budget){
+async function handleFormSubmit(event, budget){
     const form = event.currentTarget;
     const url = form.action;
 
     try {
-        const formData = new FormData(budget);
-        const responseData = await postFormAsJson({url, formData});
+        const formData = getFormData(budget);
+        const responseData = await postFormDataAsJson({url, formData});
         console.log(responseData);
+        window.location.href = "/";
     } catch (error){
         console.error(error);
     }
+}
+
+function getFormData(object) {
+    const formData = new FormData();
+    Object.keys(object).forEach(key => {
+      if (typeof object[key] !== 'object') formData.append(key, object[key])
+      else formData.append(key, JSON.stringify(object[key]))
+    })
+    return formData;
 }
