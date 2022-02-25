@@ -91,40 +91,46 @@ router.get('/create', (req, res) => {
 //SAVE BUDGET
 
 router.post('/save-budget', (req, res) => {
-  const budget = JSON.parse(JSON.stringify(req.body));
-  const income = JSON.parse(budget.i);
-  const expense = JSON.parse(budget.e);
-  const savings = JSON.parse(budget.s);
-  var sql = "SELECT id FROM accounts WHERE username = ?";
-  var values = "admin";
+  const budget = req.body;
 
-  function insertData(sql, values){
-    connection.query(sql, values, function(error,results){
+  var sql = "SELECT id FROM accounts WHERE username = ?";
+  var user = "admin";
+
+  function insertData(sql, user, budget){
+    connection.query(sql, user, function(error,results){
       if (error){
         throw error;
       }
       var user_id = results[0].id;
 
       var incomeValues = [];
-      income.forEach(e => {
+      budget.i.forEach(e => {
         incomeValues.push([user_id, e[0], e[1], e[2]]);
       });
       var expenseValues = [];
-      expense.forEach(e => {
+      budget.e.forEach(e => {
         expenseValues.push([user_id, e[0], e[1], e[2]]);
       });
       var savingsValues = [];
-      savings.forEach(e => {
+      budget.s.forEach(e => {
         savingsValues.push([user_id, e[0], e[1], e[5], e[2]]);
       });
-      var values = [user_id, incomeValues, user_id, expenseValues, user_id, savingsValues];
+      var values = [user_id, user_id, user_id, incomeValues, expenseValues, savingsValues];
 
-      var sql = "DELETE FROM income WHERE user_id = ?;";
-      sql += "INSERT INTO income (user_id, name, total, freq) VALUES ?;";
+      var sql = "";
+      sql += "DELETE FROM income WHERE user_id = ?;";
       sql += "DELETE FROM expenses WHERE user_id = ?;";
-      sql += "INSERT INTO expenses (user_id, type, total, freq) VALUES ?;";
       sql += "DELETE FROM savings WHERE user_id = ?;";
-      sql += "INSERT INTO savings (user_id, type, total, monthly_payment, goal_date) VALUES ?";
+
+      if (incomeValues.length > 0){
+        sql += "INSERT INTO income (user_id, name, total, freq) VALUES ?;";
+      }
+      if (expenseValues.length > 0){
+        sql += "INSERT INTO expenses (user_id, type, total, freq) VALUES ?;";
+      }
+      if (savingsValues.length > 0){
+        sql += "INSERT INTO savings (user_id, type, total, monthly_payment, goal_date) VALUES ?";
+      }
 
       connection.query(sql, values, function(error, results){
         if (error){
@@ -138,8 +144,8 @@ router.post('/save-budget', (req, res) => {
       });
     });
   }
-  insertData(sql, values);
-  res.redirect('/');
+  insertData(sql, user, budget);
+  res.redirect("/");
 });
 
 module.exports = router;

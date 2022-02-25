@@ -6,7 +6,7 @@ function update () {
     document.getElementById("add-savings").addEventListener("click",function(){addRow("savings",-1)});
     document.getElementById("add-expense").addEventListener("click",function(){addRow("expense",-1)});
     document.getElementById("add-income").addEventListener("click",function(){addRow("income",-1)});
-    document.getElementById("budget-form").addEventListener("submit", submit );
+    document.getElementById("submit").addEventListener("click", submit);
 }
 
 function checkBudget(){
@@ -244,7 +244,7 @@ function editRow(type,btn){
     document.getElementById("edit-" + type).addEventListener("click",function(){addRow(type,index)});
 }
 
-function submit(event) {
+function submit() {
     var name = document.getElementById("name").value;
 
     if (window.sessionStorage.getItem("expense") != null){
@@ -278,14 +278,25 @@ function submit(event) {
                 s:savings
             }
             
-            window.sessionStorage.removeItem("expense");
-            window.sessionStorage.removeItem("savings");
-            window.sessionStorage.removeItem("income");
-            window.sessionStorage.removeItem("totalData");
-            window.localStorage.setItem("budget",JSON.stringify(budget));
+            window.sessionStorage.clear();
+            window.localStorage.setItem("budget", JSON.stringify(budget));
             error.innerHTML = "";
+            
+            var data = JSON.stringify(budget);
 
-            handleFormSubmit(event, budget);
+            fetch("/save-budget", 
+            {
+                method: "POST",
+                headers : {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+                body: data
+            })
+            .then(function(){ window.location.href = "/"})
+            .catch(error => {
+                console.log("Error: " + error);
+            })
 
         } else {
             error.innerHTML = "Cannot Create Budget, Negative Balance";
@@ -375,50 +386,4 @@ function showHidden (divId, input, val){
     } else {
         document.getElementById(divId).style.display = "none";
     }
-}
-
-async function postFormDataAsJson({ url, formData }) {
-	const plainFormData = Object.fromEntries(formData.entries());
-	const formDataJsonString = JSON.stringify(plainFormData);
-
-	const fetchOptions = {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			Accept: "application/json",
-		},
-		body: formDataJsonString,
-	};
-
-	const response = await fetch(url, fetchOptions);
-
-	if (!response.ok) {
-		const errorMessage = await response.text();
-		throw new Error(errorMessage);
-	}
-
-	return response.json();
-}
-
-async function handleFormSubmit(event, budget){
-    const form = event.currentTarget;
-    const url = form.action;
-
-    try {
-        const formData = getFormData(budget);
-        const responseData = await postFormDataAsJson({url, formData});
-        console.log(responseData);
-        window.location.href = "/";
-    } catch (error){
-        console.error(error);
-    }
-}
-
-function getFormData(object) {
-    const formData = new FormData();
-    Object.keys(object).forEach(key => {
-      if (typeof object[key] !== 'object') formData.append(key, object[key])
-      else formData.append(key, JSON.stringify(object[key]))
-    })
-    return formData;
 }
