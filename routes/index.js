@@ -2,9 +2,22 @@ const express = require('express');
 const connection = require('../database');
 const router = express.Router();
 
+function getBudget(data, callback){
+  var sql = "SELECT * FROM income WHERE user_id = ?;";
+  sql += "SELECT * FROM expenses WHERE user_id = ?;"
+  sql += "SELECT * FROM savings WHERE user_id = ?;"
+}
+
 //HOME PAGE ROUTE
 router.get('/', (req, res) => {
   if (req.session.loggedin) {
+    var budget = {
+      n: "Budget",
+      i: [],
+      e: [],
+      s: []
+    };
+
 		res.render('overview');
 	} else {
 		res.render('login');
@@ -94,7 +107,7 @@ router.post('/save-budget', (req, res) => {
   const budget = req.body;
 
   var sql = "SELECT id FROM accounts WHERE username = ?";
-  var user = "admin";
+  var user = req.session.username;
 
   function insertData(sql, user, budget){
     connection.query(sql, user, function(error,results){
@@ -105,15 +118,15 @@ router.post('/save-budget', (req, res) => {
 
       var incomeValues = [];
       budget.i.forEach(e => {
-        incomeValues.push([user_id, e[0], e[1], e[2]]);
+        incomeValues.push([user_id, e[0], e[1], e[2], e[3], e[4]]);
       });
       var expenseValues = [];
       budget.e.forEach(e => {
-        expenseValues.push([user_id, e[0], e[1], e[2]]);
+        expenseValues.push([user_id, e[0], e[1], e[2], e[3], e[4]]);
       });
       var savingsValues = [];
       budget.s.forEach(e => {
-        savingsValues.push([user_id, e[0], e[1], e[5], e[2]]);
+        savingsValues.push([user_id, e[0], e[1], e[2], e[3], e[4], e[5]]);
       });
       var values = [user_id, user_id, user_id, incomeValues, expenseValues, savingsValues];
 
@@ -123,13 +136,13 @@ router.post('/save-budget', (req, res) => {
       sql += "DELETE FROM savings WHERE user_id = ?;";
 
       if (incomeValues.length > 0){
-        sql += "INSERT INTO income (user_id, name, total, freq) VALUES ?;";
+        sql += "INSERT INTO income (user_id, name, total, freq, custom, monthly_total) VALUES ?;";
       }
       if (expenseValues.length > 0){
-        sql += "INSERT INTO expenses (user_id, type, total, freq) VALUES ?;";
+        sql += "INSERT INTO expenses (user_id, type, total, freq, custom, monthly_total) VALUES ?;";
       }
       if (savingsValues.length > 0){
-        sql += "INSERT INTO savings (user_id, type, total, monthly_payment, goal_date) VALUES ?";
+        sql += "INSERT INTO savings (user_id, type, total, goal_date, custom, monthly_payment, months) VALUES ?";
       }
 
       connection.query(sql, values, function(error, results){

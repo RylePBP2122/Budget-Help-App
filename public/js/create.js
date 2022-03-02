@@ -166,7 +166,6 @@ function addRow(type,index) {
             del.innerHTML = "<button id='delete' type='button'>Delete</button>";
             del.addEventListener("click", function(){removeRow(type, del.firstChild)});
         }
-        updateOverview();
 
         var oTable = document.getElementById(type + "-overview-table");
 
@@ -196,6 +195,7 @@ function addRow(type,index) {
             }
         }     
     }
+    updateOverview();
 }
 
 function removeRow(type, btn){
@@ -305,7 +305,7 @@ function submit() {
         error.innerHTML = "Cannot Create Budget, No Income added";
 }
 
-function updateOverview(type,index){
+function updateOverview(){
     if (window.sessionStorage.getItem("expense") != null){
         var expenses = JSON.parse(window.sessionStorage.getItem("expense"));
     } else 
