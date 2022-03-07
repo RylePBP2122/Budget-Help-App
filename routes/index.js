@@ -1,28 +1,15 @@
 const express = require('express');
+const { CLIENT_SECURE_CONNECTION } = require('mysql/lib/protocol/constants/client');
 const connection = require('../database');
 const router = express.Router();
-
-function getBudget(data, callback){
-  var sql = "SELECT * FROM income WHERE user_id = ?;";
-  sql += "SELECT * FROM expenses WHERE user_id = ?;"
-  sql += "SELECT * FROM savings WHERE user_id = ?;"
-}
 
 //HOME PAGE ROUTE
 router.get('/', (req, res) => {
   if (req.session.loggedin) {
-    var budget = {
-      n: "Budget",
-      i: [],
-      e: [],
-      s: []
-    };
-
-		res.render('overview');
+        res.render('overview');
 	} else {
 		res.render('login');
 	}
-	res.end();
 });
 
 //LOGIN
@@ -159,6 +146,48 @@ router.post('/save-budget', (req, res) => {
   }
   insertData(sql, user, budget);
   res.redirect("/");
+});
+
+router.get('/get-budget', (req, res) => {
+  if (req.session.loggedin) {
+    var sql = "SELECT id FROM accounts WHERE username = ?"
+    connection.query(sql, req.session.username, function(err, results){
+      if (err){
+        throw err;
+      }
+      var id = results[0].id;
+      var sql = "SELECT * FROM income WHERE user_id = ?;";
+      sql += "SELECT * FROM expenses WHERE user_id = ?;"
+      sql += "SELECT * FROM savings WHERE user_id = ?;"
+
+      connection.query(sql, [id,id,id], function(err,results){
+        if (err){
+          throw err;
+        }
+        var incomeValues = [];
+        var expenseValues = [];
+        var savingsValues = [];
+
+        results[0].forEach(e => {
+          incomeValues.push([Object.values(e)]);
+        });
+        results[1].forEach(e => {
+          expenseValues.push([Object.values(e)]);
+        });
+        results[2].forEach(e => {
+          savingsValues.push([Object.values(e)]);
+        });
+
+        var budget = {
+          n: "budget",
+          i: incomeValues,
+          e: expenseValues,
+          s: savingsValues
+        };
+        res.json(budget);
+      });
+    });
+	}
 });
 
 module.exports = router;

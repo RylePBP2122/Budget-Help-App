@@ -1,20 +1,17 @@
 window.addEventListener("DOMContentLoaded", function(){update()});
 
-function hasBudget(){
-    if (window.localStorage.getItem("budget") != null)
-        return true;
-    return false;
-}
+async function getData(url) {
+    const response = await fetch(url);
+    return response.json();
+  }
 
-function getData(){
-    return JSON.parse(window.localStorage.getItem("budget"));
-}
-
-function update(){
-    if(hasBudget()){
+async function update(){
+    const budget = await getData('/get-budget');
+    console.log({ budget });
+    
+    if(budget != null){
         var x = document.getElementById("create");
         x.classList.add("hidden");
-        var budget = getData();
         var ul = document.getElementById("overview-list");
 
         budget.i.forEach(e => {
