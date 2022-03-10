@@ -1,28 +1,25 @@
 document.addEventListener("DOMContentLoaded", update);
 
-function update () {
-    if(checkBudget())
-        loadBudget();
+async function update () {
+    const budget = await fetchData();
+    if (budget != null)
+        loadBudget(budget);
     document.getElementById("add-savings").addEventListener("click",function(){addRow("savings",-1)});
     document.getElementById("add-expense").addEventListener("click",function(){addRow("expense",-1)});
     document.getElementById("add-income").addEventListener("click",function(){addRow("income",-1)});
     document.getElementById("submit").addEventListener("click", submit);
 }
 
-function checkBudget(){
-    if (window.localStorage.getItem("budget") != null){
-        return true;
-    } else
-        return false;
+async function fetchData() {
+    let response = await fetch("/get-budget");
+    let budget = await response.json();
+    return budget;
 }
 
-function loadBudget(){
-    var budget = JSON.parse(window.localStorage.getItem("budget"));
+function loadBudget(budget){
     window.sessionStorage.setItem("income",JSON.stringify(budget.i));
     window.sessionStorage.setItem("expense",JSON.stringify(budget.e));
     window.sessionStorage.setItem("savings",JSON.stringify(budget.s));
-
-    document.getElementById("name").value = budget.n;
 
     budget.i.forEach(e => {
         loadRow("income",e);
@@ -245,8 +242,6 @@ function editRow(type,btn){
 }
 
 function submit() {
-    var name = document.getElementById("name").value;
-
     if (window.sessionStorage.getItem("expense") != null){
         var expenses = JSON.parse(window.sessionStorage.getItem("expense"));
     } else 
@@ -272,14 +267,12 @@ function submit() {
     if (valid){
         if(total.net >= 0){
             var budget = {
-                n:name,
                 i:income,
                 e:expenses,
                 s:savings
             }
             
             window.sessionStorage.clear();
-            window.localStorage.setItem("budget", JSON.stringify(budget));
             error.innerHTML = "";
             
             var data = JSON.stringify(budget);
@@ -335,7 +328,7 @@ function updateOverview(){
     });
 
     savings.forEach(e => {
-        total.sTotal += e[5];
+        total.sTotal += e[4];
     });
 
     total.net = total.iTotal - total.eTotal - total.sTotal;

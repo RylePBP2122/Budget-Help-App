@@ -1,13 +1,13 @@
 window.addEventListener("DOMContentLoaded", function(){update()});
 
-async function getData(url) {
-    const response = await fetch(url);
-    return response.json();
-  }
+async function fetchData() {
+    let response = await fetch("/get-budget");
+    let budget = await response.json();
+    return budget;
+}
 
 async function update(){
-    const budget = await getData('/get-budget');
-    console.log({ budget });
+    const budget = await fetchData();
     
     if(budget != null){
         var x = document.getElementById("create");

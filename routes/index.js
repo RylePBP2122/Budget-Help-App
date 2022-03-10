@@ -6,15 +6,15 @@ const router = express.Router();
 //HOME PAGE ROUTE
 router.get('/', (req, res) => {
   if (req.session.loggedin) {
-        res.render('overview');
+        res.render('overview', {loggedIn : true});
 	} else {
-		res.render('login');
+		res.render('login', {loggedIn : false});
 	}
 });
 
 //LOGIN
 router.get('/login', (req, res) => {
-  res.render('login');
+  res.render('login', {loggedIn : false});
 });
 
 //LOGIN AUTH
@@ -31,7 +31,8 @@ router.post('/login', (req, res) => {
       } else {
         res.render('login', {
           message: 'Incorrect username or password',
-          messageClass: 'message-alert'
+          messageClass: 'message-alert',
+          loggedIn: false
         });
       }
       res.end();
@@ -39,14 +40,27 @@ router.post('/login', (req, res) => {
   } else {
     res.render('login', {
       message: 'Please enter Username and Password.',
-      messageClass: 'message-alert'
+      messageClass: 'message-alert',
+      loggedIn: false
     });
 		res.end();
   }
 });
 
+router.get('/logout', (req,res) => {
+  if (req.session){
+    req.session.destroy(err => {
+      if (err){
+        res.status(400).send("Unable to log out");
+      } else {
+        res.redirect('/');
+      }
+    })
+  }
+})
+
 router.get('/register', (req,res) => {
-  res.render('register');
+  res.render('register', {loggedIn: false});
 });
 
 router.post('/register', (req,res) => {
@@ -59,7 +73,8 @@ router.post('/register', (req,res) => {
         if (results.length > 0){
             res.render('register', {
               message: 'Account with this email already exists',
-              messageClass: 'message-alert'
+              messageClass: 'message-alert',
+              loggedIn: false
             });
         } else {
           var sql = 'INSERT INTO accounts (username,password,email,firstname,lastname) VALUES (?,?,?,?,?)';
@@ -70,7 +85,8 @@ router.post('/register', (req,res) => {
           });
           res.render('login', {
             message: 'Registration successful. Please login to continue.',
-            messageClass: "message-success"
+            messageClass: "message-success",
+            loggedIn: false
           });
         }
       });
@@ -78,14 +94,20 @@ router.post('/register', (req,res) => {
   } else {
       res.render('register', {
         message: 'Passwords do not match',
-        messageClass: 'message-alert'
+        messageClass: 'message-alert',
+        loggedIn: flase
       });
     }
 });
 
 //BUDGET
 router.get('/create', (req, res) => {
-  res.render('create');
+  if (req.session.loggedin)
+    res.render('create', {loggedIn: true});
+  else{
+    res.redirect('/login');
+  }
+    
 });
 
 //SAVE BUDGET
@@ -129,7 +151,7 @@ router.post('/save-budget', (req, res) => {
         sql += "INSERT INTO expenses (user_id, type, total, freq, custom, monthly_total) VALUES ?;";
       }
       if (savingsValues.length > 0){
-        sql += "INSERT INTO savings (user_id, type, total, goal_date, custom, monthly_payment, months) VALUES ?";
+        sql += "INSERT INTO savings (user_id, type, total, goal_date, custom, months, monthly_payment) VALUES ?";
       }
 
       connection.query(sql, values, function(error, results){
@@ -156,9 +178,9 @@ router.get('/get-budget', (req, res) => {
         throw err;
       }
       var id = results[0].id;
-      var sql = "SELECT * FROM income WHERE user_id = ?;";
-      sql += "SELECT * FROM expenses WHERE user_id = ?;"
-      sql += "SELECT * FROM savings WHERE user_id = ?;"
+      var sql = "SELECT name,total,freq,custom,monthly_total FROM income WHERE user_id = ?;";
+      sql += "SELECT type,total,freq,custom,monthly_total FROM expenses WHERE user_id = ?;"
+      sql += "SELECT type,total,goal_date,custom,monthly_payment,months FROM savings WHERE user_id = ?;"
 
       connection.query(sql, [id,id,id], function(err,results){
         if (err){
@@ -169,17 +191,16 @@ router.get('/get-budget', (req, res) => {
         var savingsValues = [];
 
         results[0].forEach(e => {
-          incomeValues.push([Object.values(e)]);
+          incomeValues.push(Object.values(e));
         });
         results[1].forEach(e => {
-          expenseValues.push([Object.values(e)]);
+          expenseValues.push(Object.values(e));
         });
         results[2].forEach(e => {
-          savingsValues.push([Object.values(e)]);
+          savingsValues.push(Object.values(e));
         });
 
         var budget = {
-          n: "budget",
           i: incomeValues,
           e: expenseValues,
           s: savingsValues
