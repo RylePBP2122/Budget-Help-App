@@ -8,8 +8,8 @@ async function fetchData() {
 
 async function update(){
     const budget = await fetchData();
-    
-    if(budget != null){
+    console.log(budget);
+    if(budget.i.length > 0 || budget.e.length > 0 || budget.s.length > 0){
         var x = document.getElementById("create");
         x.classList.add("hidden");
         var ul = document.getElementById("overview-list");

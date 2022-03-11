@@ -14,7 +14,19 @@ router.get('/', (req, res) => {
 
 //LOGIN
 router.get('/login', (req, res) => {
-  res.render('login', {loggedIn : false});
+    res.render('login', {loggedIn: false});
+});
+
+router.get('/login/:message', (req, res) => {
+  if (req.params.message == 1){
+    res.render('login', {
+      loggedIn : false,
+      message: "Please login or register an account to create a budget",
+      messageClass: "message-alert"
+    });
+  } else {
+    res.render('login', {loggedIn: false});
+  }
 });
 
 //LOGIN AUTH
@@ -105,7 +117,7 @@ router.get('/create', (req, res) => {
   if (req.session.loggedin)
     res.render('create', {loggedIn: true});
   else{
-    res.redirect('/login');
+    res.redirect('/login/1');
   }
     
 });
@@ -205,7 +217,8 @@ router.get('/get-budget', (req, res) => {
           e: expenseValues,
           s: savingsValues
         };
-        res.json(budget);
+        
+        res.send(budget);
       });
     });
 	}
