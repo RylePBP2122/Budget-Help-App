@@ -1,8 +1,12 @@
-  
+ body {
+   margin: 0;
+ }
+
   .parent {
     display: flex;
     flex-direction: column;
   }
+  
   .container {
     display: flex;
     flex-direction: row;

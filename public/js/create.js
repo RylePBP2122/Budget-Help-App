@@ -328,7 +328,7 @@ function updateOverview(){
     });
 
     savings.forEach(e => {
-        total.sTotal += e[4];
+        total.sTotal += e[5];
     });
 
     total.net = total.iTotal - total.eTotal - total.sTotal;

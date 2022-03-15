@@ -21,7 +21,7 @@ router.get('/login/:message', (req, res) => {
   if (req.params.message == 1){
     res.render('login', {
       loggedIn : false,
-      message: "Please login or register an account to create a budget",
+      message: "Please login or register an account to view this page",
       messageClass: "message-alert"
     });
   } else {
@@ -112,6 +112,65 @@ router.post('/register', (req,res) => {
     }
 });
 
+router.get('/settings', (req, res) => {
+  res.render('settings', {
+    loggedIn: true
+  });
+});
+
+router.post('/change-pass', (req,res) => {
+  var user = req.session.username;
+  var sql = "SELECT id FROM accounts WHERE username = ?";
+  const password = req.body.password;
+  connection.query(sql,user, function(error, results){
+    if (error) throw error
+    var id = results[0].id;
+    var sql = "UPDATE accounts SET password = ? WHERE id = ?";
+    connection.query(sql, [password,id], function(error, results){
+      if (error) throw error;
+      console.log("Password changed for user_id: " + id);
+      res.redirect('/');
+    });
+  });
+});
+
+router.post('/delete-budget', (req,res) => {
+  var sql = "SELECT id FROM accounts WHERE username = ?";
+  connection.query(sql, req.session.username, function(error,results){
+    if (error) throw error;
+    var id = results[0].id;
+    var sql = "DELETE FROM income WHERE user_id = ?; ";
+    sql += "DELETE FROM expenses WHERE user_id = ?; ";
+    sql += "DELETE FROM savings WHERE user_id = ?; ";
+    connection.query(sql, [id,id,id], function(error,results){
+      if(error) throw error;
+      console.log("Budget deleted.");
+      res.redirect('/');
+    });
+  });
+});
+
+router.post('/delete-account', (req,res) => {
+  var sql = "SELECT id FROM accounts WHERE username = ?";
+  connection.query(sql, req.session.username, function(error,results){
+    if (error) throw error;
+    var id = results[0].id;
+    var sql = "DELETE FROM income WHERE user_id = ?; ";
+    sql += "DELETE FROM expenses WHERE user_id = ?; ";
+    sql += "DELETE FROM savings WHERE user_id = ?; ";
+    connection.query(sql, [id,id,id], function(error,results){
+      if(error) throw error;
+      console.log("Budget deleted.");
+      var sql = "DELETE FROM accounts WHERE id = ?";
+      connection.query(sql, id, function(error, results){
+        if(error) throw error;
+        console.log("Account deleted.");
+        res.redirect('/logout');
+      });
+    });
+  });
+});
+
 //BUDGET
 router.get('/create', (req, res) => {
   if (req.session.loggedin)
@@ -119,7 +178,6 @@ router.get('/create', (req, res) => {
   else{
     res.redirect('/login/1');
   }
-    
 });
 
 //SAVE BUDGET
@@ -182,9 +240,33 @@ router.post('/save-budget', (req, res) => {
   res.redirect("/");
 });
 
+//RECENT TRANSACTIONS PAGE
+
+router.get('/transactions', (req, res) => {
+  if (req.session.loggedin){
+    var sql = "SELECT id FROM accounts WHERE username = ?";
+    connection.query(sql, req.session.username, function (err, results){
+      if (err) throw err;
+      var id = results[0].id;
+      var sql = "SELECT * FROM transactions WHERE user_id = ?";
+      connection.query(sql, id, function(err, results){
+        if (err) throw err;
+        res.render('transactions', {
+          loggedIn: true,
+          title: 'Recent Transactions',
+          transData: results,
+        });
+      })
+    })
+    
+  } else {
+    res.redirect('/login/1');
+  }
+});
+
 router.get('/get-budget', (req, res) => {
   if (req.session.loggedin) {
-    var sql = "SELECT id FROM accounts WHERE username = ?"
+    var sql = "SELECT id FROM accounts WHERE username = ?";
     connection.query(sql, req.session.username, function(err, results){
       if (err){
         throw err;

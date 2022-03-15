@@ -8,7 +8,7 @@ async function fetchData() {
 
 async function update(){
     const budget = await fetchData();
-    console.log(budget);
+    
     if(budget.i.length > 0 || budget.e.length > 0 || budget.s.length > 0){
         var x = document.getElementById("create");
         x.classList.add("hidden");
