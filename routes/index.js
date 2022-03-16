@@ -253,16 +253,39 @@ router.get('/transactions', (req, res) => {
         if (err) throw err;
         res.render('transactions', {
           loggedIn: true,
-          title: 'Recent Transactions',
           transData: results,
         });
-      })
-    })
-    
+      });
+    });  
   } else {
     res.redirect('/login/1');
   }
 });
+
+router.post('/add-transaction', (req, res) => {
+  var username = req.session.username;
+  var sql = "SELECT id from accounts WHERE username = ?";
+  connection.query(sql, username, function (err, results){
+    if (err) throw err;
+    var id = results[0].id;
+    var values = [id, req.body.date, req.body.vendor, req.body.amount, req.body.budget];
+    var sql = "INSERT INTO transactions (user_id, date, vendor, amount, budget) VALUES (?,?,?,?,?)";
+    connection.query(sql, values, function(err, results){
+      if (err) throw err;
+      console.log(results.affectedRows + " rows inserted.");
+      res.redirect('/transactions');
+    });
+  });
+});
+
+router.get('/delete-transaction/:trans_id', (req, res) => {
+  var sql = "DELETE FROM transactions WHERE trans_id = ?";
+  connection.query(sql, req.params.trans_id, function(err, results){
+    if(err) throw err;
+    console.log("Transaction deleted.");
+    res.redirect('/transactions');
+  })
+})
 
 router.get('/get-budget', (req, res) => {
   if (req.session.loggedin) {
@@ -299,7 +322,6 @@ router.get('/get-budget', (req, res) => {
           e: expenseValues,
           s: savingsValues
         };
-        
         res.send(budget);
       });
     });
