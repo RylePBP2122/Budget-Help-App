@@ -27,12 +27,32 @@
                 <h3>Recent Transactions</h3>
                 <table>
                     <tr>
+                        <th>Trans. ID</th>
                         <th>Date</th>
                         <th>Vendor</th>
                         <th>Amount</th>
                         <th>Budget</th>
                     </tr>
+                    <%
+                if(transData.length!=0){
+                    var i=1;
+                    transData.forEach(function(data){
+                %>
+                        <tr>
+                            <td><%=data.trans_id %></td>
+                            <td><%=data.date %></td>
+                            <td><%=data.vendor %></td>
+                            <td>$<span id="amnt"><%=data.amount %></span></td>
+                            <td><%=data.budget %></td>
+                        </tr>
+                    <%  }) %>
+                <% } else{ %>
+                    <tr>
+                        <td colspan="6">No Data Found</td>
+                    </tr>
+                <% } %>   
                 </table>
+                <a href="/transactions"><button>More Details</button></a>
             </div>
         </div>
     </div>

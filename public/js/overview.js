@@ -8,6 +8,27 @@ async function fetchData() {
 
 async function update(){
     const budget = await fetchData();
+
+    var budgetTypes = [];
+
+    budget.e.forEach(e => {
+        if(!budgetTypes.includes(e[0]))
+            budgetTypes.push(e[0]);
+    });
+    budget.i.forEach(e => {
+        if(!budgetTypes.includes(e[0]))
+            budgetTypes.push(e[0]);
+    });
+    budget.s.forEach(e => {
+        if(!budgetTypes.includes(e[0]))
+            budgetTypes.push(e[0]);
+    });
+
+    var budgetValues = {};
+
+    budgetTypes.forEach(e => {
+        budgetValues[e] = 0;
+    });
     
     if(budget.i.length > 0 || budget.e.length > 0 || budget.s.length > 0){
         var x = document.getElementById("create");

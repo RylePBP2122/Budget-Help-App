@@ -15,6 +15,7 @@
             <h3>Recent Transactions</h3>
             <table id="trans-table">
                 <tr>
+                    <th>Trans. ID</th>
                     <th>Date</th>
                     <th>Vendor</th>
                     <th>Amount</th>
@@ -29,11 +30,12 @@
                 transData.forEach(function(data){
             %>
                     <tr>
+                        <td><%=data.trans_id %></td>
                         <td><%=data.date %></td>
                         <td><%=data.vendor %></td>
-                        <td><%=data.amount %></td>
+                        <td>$<span id="amnt"><%=data.amount %></span></td>
                         <td><%=data.budget %></td>
-                        <td><a href="#" onclick="edit(this)">Edit</a></td>
+                        <td><button onclick="edit(this)">Edit</button></td>
                         <td><a href="/delete-transaction/<%=data.trans_id%>">Delete</a></td>
                     </tr>
                 <%  }) %>
@@ -44,7 +46,7 @@
             <% } %>   
             </table>
             <div>
-                <form id="form" action="/add-transaction" method="POST">
+                <form id="add-form" action="/add-transaction" method="POST">
                     <label for="date">Date</label>
                     <input type="date" name="date">
                     <br>
@@ -56,9 +58,30 @@
                     <br>
                     <label for="budget">Budget</label>
                     <select name="budget" id="budget-dropdown">
+                        <option value="">Please select an option</option>
                     </select>
                     <br>
                     <button type="submit">Add Transaction</button>
+                </form>
+                <form id="edit-form" action="/update-transaction" method="POST" class="hidden">
+                    <label for="trans_id">Trans. ID</label>
+                    <input id="trans_id" name="trans_id" type="text">
+                    <br>
+                    <label for="date">Date</label>
+                    <input id="date" type="date" name="date">
+                    <br>
+                    <label for="vendor">Vendor</label>
+                    <input id="vender" type="text" name="vendor">
+                    <br>
+                    <label for="amount">Amount $</label>
+                    <input id="amount" type="text" name="amount">
+                    <br>
+                    <label for="budget">Budget</label>
+                    <select name="budget" id="update-budget-dropdown">
+                        <option value="">Please select an option</option>
+                    </select>
+                    <br>
+                    <button type="submit">Save Transaction</button>
                 </form>
             </div>
         </div>

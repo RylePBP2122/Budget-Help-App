@@ -6,7 +6,19 @@ const router = express.Router();
 //HOME PAGE ROUTE
 router.get('/', (req, res) => {
   if (req.session.loggedin) {
-        res.render('overview', {loggedIn : true});
+    var sql = "SELECT id FROM accounts WHERE username = ?";
+    connection.query(sql, req.session.username, function (err, results){
+      if (err) throw err;
+      var id = results[0].id;
+      var sql = "SELECT * FROM transactions WHERE user_id = ?";
+      connection.query(sql, id, function(err, results){
+        if (err) throw err;
+        res.render('overview', {
+          loggedIn: true,
+          transData: results,
+        });
+      });
+    });  
 	} else {
 		res.render('login', {loggedIn : false});
 	}
@@ -270,6 +282,23 @@ router.post('/add-transaction', (req, res) => {
     var id = results[0].id;
     var values = [id, req.body.date, req.body.vendor, req.body.amount, req.body.budget];
     var sql = "INSERT INTO transactions (user_id, date, vendor, amount, budget) VALUES (?,?,?,?,?)";
+    connection.query(sql, values, function(err, results){
+      if (err) throw err;
+      console.log(results.affectedRows + " rows inserted.");
+      res.redirect('/transactions');
+    });
+  });
+});
+
+router.post('/update-transaction', (req, res) => {
+  var username = req.session.username;
+  var transID = req.body.trans_id;
+  var sql = "SELECT id from accounts WHERE username = ?";
+  connection.query(sql, username, function (err, results){
+    if (err) throw err;
+    var id = results[0].id;
+    var values = [id, req.body.date, req.body.vendor, req.body.amount, req.body.budget, transID];
+    var sql = "UPDATE transactions SET user_id = ?, date = ?, vendor = ?, amount = ?, budget = ? WHERE trans_id = ?";
     connection.query(sql, values, function(err, results){
       if (err) throw err;
       console.log(results.affectedRows + " rows inserted.");

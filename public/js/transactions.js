@@ -24,16 +24,27 @@ async function update(){
     });
 
     var dropdown = document.getElementById("budget-dropdown");
+    var uDropdown = document.getElementById("update-budget-dropdown");
+
     budgetTypes.forEach(e => {
         var option = document.createElement("option");
         option.value = e;
         option.innerHTML = e;
         dropdown.appendChild(option);
+        uDropdown.appendChild(option);
     });
 }
 
 function edit(btn){
-    var form = document.getElementById("form");
+    document.getElementById("add-form").classList.toggle("hidden");
+    document.getElementById("edit-form").classList.toggle("hidden");
+
     var index = btn.parentNode.parentNode.rowIndex;
-    form.date
+    var cells = document.getElementById("trans-table").rows[index].cells;
+    
+    document.getElementById("trans_id").value = cells[0].innerHTML;
+    document.getElementById("date").value = cells[1].innerHTML;
+    document.getElementById("vender").value = cells[2].innerHTML;
+    document.getElementById("amount").value = document.getElementById("amnt").innerHTML;
+    document.getElementById("update-budget-dropdown").value = cells[4].innerHTML;
 }
