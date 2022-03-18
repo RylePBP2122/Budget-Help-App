@@ -6,8 +6,33 @@ async function fetchData() {
     return budget;
 }
 
+async function fetchTransData() {
+    let response = await fetch("/get-transactions");
+    let transData = await response.json();
+    return transData;
+}
+
+function updateTrans(transData, budgetTypes){
+    let today = new Date();
+    let month = today.getMonth();
+
+    var budgetValues = {};
+    budgetTypes.forEach(e => {
+        budgetValues[e] = 0;
+    });
+
+    transData.forEach(e => {
+        let tempMonth = new Date(e.date).getMonth();
+        if (tempMonth == month){
+            budgetValues[e.budget] += e.amount;
+        }
+    });
+    return budgetValues;
+}
+
 async function update(){
     const budget = await fetchData();
+    const transData = await fetchTransData();
 
     var budgetTypes = [];
 
@@ -24,11 +49,7 @@ async function update(){
             budgetTypes.push(e[0]);
     });
 
-    var budgetValues = {};
-
-    budgetTypes.forEach(e => {
-        budgetValues[e] = 0;
-    });
+    var budgetValues = updateTrans(transData, budgetTypes);
     
     if(budget.i.length > 0 || budget.e.length > 0 || budget.s.length > 0){
         var x = document.getElementById("create");
@@ -51,13 +72,13 @@ async function update(){
 
             var percentDiv = document.createElement("div");
             percentDiv.classList.add("budget-percentage");
-            var p = Math.floor((100/e[4])*100); // Set to 100 for example need to implement real data
+            var p = Math.floor((budgetValues[e[0]]/e[4])*100); // Set to 100 for example need to implement real data
             percentDiv.style.width = p + "%";
             barDiv.appendChild(percentDiv);
 
             var currentVal = document.createElement("span");
             currentVal.classList.add("current-value");
-            currentVal.innerHTML = "$100"; //set value example
+            currentVal.innerHTML = "$" + budgetValues[e[0]]; //set value example
             if (p > 20)
                 currentVal.style.color = "white";
             percentDiv.appendChild(currentVal);
@@ -84,14 +105,14 @@ async function update(){
 
             var percentDiv = document.createElement("div");
             percentDiv.classList.add("budget-percentage");
-            var p = Math.floor((100/e[4])*100); // Set to 100 for example need to implement real data
+            var p = Math.floor((budgetValues[e[0]]/e[4])*100); // Set to 100 for example need to implement real data
             percentDiv.style.width = p + "%";
             percentDiv.style.backgroundColor = "red";
             barDiv.appendChild(percentDiv);
 
             var currentVal = document.createElement("span");
             currentVal.classList.add("current-value");
-            currentVal.innerHTML = "$100"; //example value
+            currentVal.innerHTML = "$" + budgetValues[e[0]]; //example value
             if (p > 20)
                 currentVal.style.color = "white";
             percentDiv.appendChild(currentVal);

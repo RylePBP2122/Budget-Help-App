@@ -274,6 +274,21 @@ router.get('/transactions', (req, res) => {
   }
 });
 
+router.get('/get-transactions', (req, res) => {
+  if (req.session.loggedin){
+    var sql = "SELECT id FROM accounts WHERE username = ?";
+    connection.query(sql, req.session.username, function (err, results){
+      if (err) throw err;
+      var id = results[0].id;
+      var sql = "SELECT * FROM transactions WHERE user_id = ?";
+      connection.query(sql, id, function(err, results){
+        if (err) throw err;
+        res.send(results);
+      });
+    }); 
+  } 
+});
+
 router.post('/add-transaction', (req, res) => {
   var username = req.session.username;
   var sql = "SELECT id from accounts WHERE username = ?";
