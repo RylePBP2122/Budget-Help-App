@@ -28,10 +28,13 @@ async function update(){
 
     budgetTypes.forEach(e => {
         var option = document.createElement("option");
+        var uOption = document.createElement("option");
         option.value = e;
-        option.innerHTML = e;
+        option.text = e;
+        uOption.value = e;
+        uOption.text = e;
         dropdown.appendChild(option);
-        uDropdown.appendChild(option);
+        uDropdown.appendChild(uOption);
     });
 }
 
@@ -45,6 +48,6 @@ function edit(btn){
     document.getElementById("trans_id").value = cells[0].innerHTML;
     document.getElementById("date").value = cells[1].innerHTML;
     document.getElementById("vender").value = cells[2].innerHTML;
-    document.getElementById("amount").value = document.getElementById("amnt").innerHTML;
+    document.getElementById("amount").value = cells[3].firstElementChild.innerHTML;
     document.getElementById("update-budget-dropdown").value = cells[4].innerHTML;
 }

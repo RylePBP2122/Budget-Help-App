@@ -41,23 +41,23 @@
                 <%  }) %>
             <% } else{ %>
                 <tr>
-                    <td colspan="6">No Data Found</td>
+                    <td colspan="7">No Data Found</td>
                 </tr>
             <% } %>   
             </table>
             <div>
                 <form id="add-form" action="/add-transaction" method="POST">
                     <label for="date">Date</label>
-                    <input type="date" name="date">
+                    <input type="date" name="date" required>
                     <br>
                     <label for="vendor">Vendor</label>
-                    <input type="text" name="vendor">
+                    <input type="text" name="vendor" required>
                     <br>
                     <label for="amount">Amount $</label>
-                    <input type="text" name="amount">
+                    <input type="text" name="amount" required>
                     <br>
                     <label for="budget">Budget</label>
-                    <select name="budget" id="budget-dropdown">
+                    <select name="budget" id="budget-dropdown" required>
                         <option value="">Please select an option</option>
                     </select>
                     <br>
@@ -65,19 +65,19 @@
                 </form>
                 <form id="edit-form" action="/update-transaction" method="POST" class="hidden">
                     <label for="trans_id">Trans. ID</label>
-                    <input id="trans_id" name="trans_id" type="text">
+                    <input id="trans_id" name="trans_id" type="text" readonly>
                     <br>
                     <label for="date">Date</label>
-                    <input id="date" type="date" name="date">
+                    <input id="date" type="date" name="date" required>
                     <br>
                     <label for="vendor">Vendor</label>
-                    <input id="vender" type="text" name="vendor">
+                    <input id="vender" type="text" name="vendor" required>
                     <br>
                     <label for="amount">Amount $</label>
-                    <input id="amount" type="text" name="amount">
+                    <input id="amount" type="text" name="amount" required>
                     <br>
                     <label for="budget">Budget</label>
-                    <select name="budget" id="update-budget-dropdown">
+                    <select name="budget" id="update-budget-dropdown" required>
                         <option value="">Please select an option</option>
                     </select>
                     <br>

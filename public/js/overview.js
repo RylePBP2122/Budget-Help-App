@@ -72,13 +72,15 @@ async function update(){
 
             var percentDiv = document.createElement("div");
             percentDiv.classList.add("budget-percentage");
-            var p = Math.floor((budgetValues[e[0]]/e[4])*100); // Set to 100 for example need to implement real data
+            var p = Math.floor((budgetValues[e[0]]/e[4])*100);
+            if (p > 100)
+                p = 100;
             percentDiv.style.width = p + "%";
             barDiv.appendChild(percentDiv);
 
             var currentVal = document.createElement("span");
             currentVal.classList.add("current-value");
-            currentVal.innerHTML = "$" + budgetValues[e[0]]; //set value example
+            currentVal.innerHTML = "$" + budgetValues[e[0]];
             if (p > 20)
                 currentVal.style.color = "white";
             percentDiv.appendChild(currentVal);
@@ -105,14 +107,16 @@ async function update(){
 
             var percentDiv = document.createElement("div");
             percentDiv.classList.add("budget-percentage");
-            var p = Math.floor((budgetValues[e[0]]/e[4])*100); // Set to 100 for example need to implement real data
+            var p = Math.floor((budgetValues[e[0]]/e[4])*100);
+            if (p > 100)
+                p = 100;
             percentDiv.style.width = p + "%";
             percentDiv.style.backgroundColor = "red";
             barDiv.appendChild(percentDiv);
 
             var currentVal = document.createElement("span");
             currentVal.classList.add("current-value");
-            currentVal.innerHTML = "$" + budgetValues[e[0]]; //example value
+            currentVal.innerHTML = "$" + budgetValues[e[0]];
             if (p > 20)
                 currentVal.style.color = "white";
             percentDiv.appendChild(currentVal);

@@ -18,9 +18,12 @@
                 <a href="create"><button>Create a budget</button></a>
             </div>
             <div class="container-child" id="overview">
-                <h3>Budget Overview</h3>
+                <h3>Monthly Budget Overview</h3>
                 <div id="overview-data">
                     <ul id="overview-list"></ul>
+                </div>
+                <div>
+                    <a href="create"><button>Edit Budget</button></a>
                 </div>
             </div>
             <div class="container-child" id="recent-transactions">
@@ -33,19 +36,23 @@
                         <th>Amount</th>
                         <th>Budget</th>
                     </tr>
-                    <%
-                if(transData.length!=0){
-                    transData.forEach(function(data){
-                %>
+                <% if(transData.length!=0){ %>
+                <%  var i = transData.length; %>
+                <%  if (i > 5) i = 5; %>
+                <%  for (var j = 0; j < i; j++){ %>
+                <%      let today = new Date(); %>
+                <%      let temp = new Date(transData[j].date); %>
+                <%      if (temp.getMonth() == today.getMonth()){ %>
                         <tr>
-                            <td><%=data.trans_id %></td>
-                            <td><%=data.date %></td>
-                            <td><%=data.vendor %></td>
-                            <td>$<span id="amnt"><%=data.amount %></span></td>
-                            <td><%=data.budget %></td>
+                            <td><%=transData[j].trans_id %></td>
+                            <td><%=transData[j].date %></td>
+                            <td><%=transData[j].vendor %></td>
+                            <td>$<span><%=transData[j].amount %></span></td>
+                            <td><%=transData[j].budget %></td>
                         </tr>
-                    <%  }) %>
-                <% } else{ %>
+                    <% } %>
+                <%  } %>
+                <% } else { %>
                     <tr>
                         <td colspan="6">No Data Found</td>
                     </tr>
