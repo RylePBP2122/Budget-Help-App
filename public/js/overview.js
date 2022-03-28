@@ -33,27 +33,29 @@ function updateTrans(transData, budgetTypes){
 async function update(){
     const budget = await fetchData();
     const transData = await fetchTransData();
-
-    var budgetTypes = [];
-
-    budget.e.forEach(e => {
-        if(!budgetTypes.includes(e[0]))
-            budgetTypes.push(e[0]);
-    });
-    budget.i.forEach(e => {
-        if(!budgetTypes.includes(e[0]))
-            budgetTypes.push(e[0]);
-    });
-    budget.s.forEach(e => {
-        if(!budgetTypes.includes(e[0]))
-            budgetTypes.push(e[0]);
-    });
-
-    var budgetValues = updateTrans(transData, budgetTypes);
     
     if(budget.i.length > 0 || budget.e.length > 0 || budget.s.length > 0){
-        var x = document.getElementById("create");
-        x.classList.add("hidden");
+
+        var budgetTypes = [];
+
+        budget.e.forEach(e => {
+            if(!budgetTypes.includes(e[0]))
+                budgetTypes.push(e[0]);
+        });
+        budget.i.forEach(e => {
+            if(!budgetTypes.includes(e[0]))
+                budgetTypes.push(e[0]);
+        });
+        budget.s.forEach(e => {
+            if(!budgetTypes.includes(e[0]))
+                budgetTypes.push(e[0]);
+        });
+
+        var budgetValues = updateTrans(transData, budgetTypes);
+
+        document.getElementById("create").classList.toggle("hidden");
+        document.getElementById("overview").classList.toggle("hidden");
+        document.getElementById("recent-transactions").classList.toggle("hidden");
         var ul = document.getElementById("overview-list");
 
         budget.i.forEach(e => {

@@ -1,6 +1,6 @@
 const express = require('express');
 const { CLIENT_SECURE_CONNECTION } = require('mysql/lib/protocol/constants/client');
-const connection = require('../database');
+const connection = require('../config/database');
 const router = express.Router();
 
 //HOME PAGE ROUTE

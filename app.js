@@ -3,28 +3,58 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
 const dotenv = require('dotenv');
-const connection = require('./database');
 dotenv.config();
 
-const app = express();
+const mysql = require('mysql2/promise');
+const sequelize = require('./config/db.config');
 
-connection.connect((err) => {
-    if(err) throw err;
-    console.log("Database connected.");
-});
+initialize();
 
-app.use(express.static('public'));
-app.set('views', './views');
-app.set('view engine', 'ejs');
+async function initialize() {
+    const connection = await mysql.createConnection({
+		host: process.env.HOST,
+		user: process.env.USER,
+		password: process.env.PASSWORD
+	});
+    await connection.query(`CREATE DATABASE IF NOT EXISTS \`${process.env.DATABASE}\`;`);
+    connection.end();
 
-app.use(session({
-	secret: 'secret',
-	resave: true,
-	saveUninitialized: true
-}));
-app.use(bodyParser.urlencoded({extended : true}));
-app.use(bodyParser.json()); 
+    const Accounts = require('./models/accounts');
+    const Expenses = require('./models/expenses');
+    const Income = require('./models/income');
+    const Savings = require('./models/savings');
+    const Transactions = require('./models/transactions');
 
-app.use('/', routes);
+    sequelize.sync().then(() => {
+        Accounts.findOrCreate({where :{
+            id:1,
+            username: "admin",
+            password: "root",
+            email: "admin@gmail.com",
+            firstname: "Admin",
+            lastname: "Admin"
+            }})    
+        }).then(() => {
+            console.log("Database synced.");
 
-app.listen(process.env.PORT, () => {console.log("Server is running on port " + process.env.PORT)});
+            const app = express();
+    
+            app.use(express.static('public'));
+            app.set('views', './views');
+            app.set('view engine', 'ejs');
+    
+            app.use(session({
+                secret: 'secret',
+                resave: true,
+                saveUninitialized: true
+            }));
+            app.use(bodyParser.urlencoded({extended : true}));
+            app.use(bodyParser.json()); 
+    
+            app.use('/', routes);
+    
+            app.listen(process.env.PORT, () => {console.log("Server is running on port " + process.env.PORT)});
+        });
+    //});
+}   
+

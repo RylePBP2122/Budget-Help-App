@@ -2,10 +2,6 @@ body {
     margin: 0;
 }
 
-.container-child .overview {
-    display: none;
-}
-
 #overview-list {
     padding: 0;
 }
