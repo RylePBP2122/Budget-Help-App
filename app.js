@@ -25,8 +25,8 @@ async function initialize() {
     const Savings = require('./models/savings');
     const Transactions = require('./models/transactions');
 
-    sequelize.sync().then(() => {
-        Accounts.findOrCreate({where :{
+    sequelize.sync().then(async () => {
+        await Accounts.findOrCreate({where :{
             id:1,
             username: "admin",
             password: "root",
@@ -55,6 +55,4 @@ async function initialize() {
     
             app.listen(process.env.PORT, () => {console.log("Server is running on port " + process.env.PORT)});
         });
-    //});
-}   
-
+}
