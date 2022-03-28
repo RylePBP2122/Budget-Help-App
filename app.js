@@ -35,6 +35,7 @@ async function initialize() {
             lastname: "Admin"
             }})    
         }).then(() => {
+            console.log("====================");
             console.log("Database synced.");
 
             const app = express();
